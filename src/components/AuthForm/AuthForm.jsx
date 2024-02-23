@@ -11,23 +11,70 @@ import {
 import React, { useState } from "react";
 import instagramLogo from "../../../public/logo.png";
 import googlelogo from "../../../public/google.png";
+import { toast } from "react-toastify";
 
 const AuthForm = () => {
+  const initialState = {
+    email: "",
+    password: "",
+    confirm_password: "",
+  };
   const [isLogin, setIsLogin] = useState(true);
+  const [userDetail, setUserDetail] = useState(initialState);
+  const [loading, setLoading] = useState(false);
+
+  const handleAuth = () => {
+    setLoading(true);
+    if (!userDetail.email || !userDetail.password) {
+      toast.error("All fields are required");
+      setLoading(false);
+      return;
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleAuth();
+    }
+  };
   return (
     <Box border={"1px solid gray"} borderRadius={"6px"} p={3}>
-      <VStack spacing={4}>
+      <VStack spacing={3}>
         <Image src={instagramLogo} h={16} />
-        <Input placeholder="Email" type="text" fontSize={14} />
-        <Input placeholder="Password" type="password" fontSize={14} />
+        <Input
+          placeholder="Email"
+          type="text"
+          fontSize={14}
+          value={userDetail.email}
+          onChange={(e) =>
+            setUserDetail({ ...userDetail, email: e.target.value })
+          }
+        />
+        <Input
+          placeholder="Password"
+          type="password"
+          fontSize={14}
+          value={userDetail.password}
+          onChange={(e) =>
+            setUserDetail({ ...userDetail, password: e.target.value })
+          }
+          onKeyDown={handleKeyPress}
+        />
         {!isLogin ? (
           <Input
             placeholder="Conform Password "
             type="password"
             fontSize={14}
+            onKeyDown={handleKeyPress}
           />
         ) : null}
-        <Button colorScheme="teal" size="md" width={"full"}>
+        <Button
+          colorScheme="teal"
+          size="md"
+          width={"full"}
+          onClick={handleAuth}
+          isLoading={loading}
+        >
           {isLogin ? "Log in" : "Sign up"}
         </Button>
 
@@ -61,7 +108,10 @@ const AuthForm = () => {
           <Box
             color={"blue.500"}
             cursor={"pointer"}
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={() => {
+              setUserDetail(initialState);
+              setIsLogin(!isLogin);
+            }}
           >
             {isLogin ? "Login" : "Signup"}
           </Box>
