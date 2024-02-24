@@ -2,16 +2,15 @@ import React from "react";
 import PostHeader from "./PostHeader";
 import { Box, Container, Flex, Image } from "@chakra-ui/react";
 import PostFooter from "./PostFooter";
-import image1 from "../../../public/img1.png";
 
-const FeedPost = () => {
+const FeedPost = ({ img, avatar, userName }) => {
   return (
     <Flex direction={"column"} gap={1}>
-      <PostHeader />
+      <PostHeader avatar={avatar} userName={userName} />
       <Box>
-        <Image src={image1} h={"full"} />
+        <Image src={img} cursor={"pointer"} borderRadius={"10px"} />
       </Box>
-      <PostFooter />
+      <PostFooter userName={userName} />
     </Flex>
   );
 };
