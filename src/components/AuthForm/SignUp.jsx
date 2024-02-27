@@ -1,15 +1,38 @@
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
+import useSignupWithEmailAndPassword from "../../Hooks/useSignupWithEmailAndPassword";
 
-const SignUp = () => {
-  const [signUpDetail, setSignUpDetail] = useState({
+const SignUp = ({ setIsLogin }) => {
+  const initialState = {
     fullName: "",
     userName: "",
     email: "",
     password: "",
-  });
+  };
+  const [signUpDetail, setSignUpDetail] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
+  const { loading, error, signUp } = useSignupWithEmailAndPassword();
+
+  const handleKeyPress = (
+    signUpDetail,
+    setSignUpDetail,
+    initialState,
+    setIsLogin,
+    e
+  ) => {
+    // console.log("enter");
+    if (e.key === "Enter") {
+      signUp(signUpDetail, setSignUpDetail, initialState, setIsLogin);
+    }
+  };
   return (
     <>
       <Input
@@ -17,9 +40,8 @@ const SignUp = () => {
         type="text"
         fontSize={14}
         value={signUpDetail.fullName}
-        onChange={
-          (e) => setSignUpDetail({ ...signUpDetail, fullName: e.target.value })
-          // console.log(e.target.value)
+        onChange={(e) =>
+          setSignUpDetail({ ...signUpDetail, fullName: e.target.value })
         }
       />
       <Input
@@ -30,7 +52,6 @@ const SignUp = () => {
         onChange={(e) =>
           setSignUpDetail({ ...signUpDetail, userName: e.target.value })
         }
-        // onKeyDown={handleKeyPress}
       />
 
       <Input
@@ -51,6 +72,15 @@ const SignUp = () => {
           onChange={(e) =>
             setSignUpDetail({ ...signUpDetail, password: e.target.value })
           }
+          onKeyDown={(e) =>
+            handleKeyPress(
+              signUpDetail,
+              setSignUpDetail,
+              initialState,
+              setIsLogin,
+              e
+            )
+          }
         />
 
         <InputRightElement>
@@ -60,12 +90,21 @@ const SignUp = () => {
         </InputRightElement>
       </InputGroup>
 
+      {error && (
+        <Alert status="error">
+          <AlertIcon />
+          {error.message}
+        </Alert>
+      )}
+
       <Button
         colorScheme="teal"
         size="md"
         width={"full"}
-        // onClick={handleAuth}
-        // isLoading={loading}
+        onClick={() =>
+          signUp(signUpDetail, setSignUpDetail, initialState, setIsLogin)
+        }
+        isLoading={loading}
       >
         Sign up
       </Button>

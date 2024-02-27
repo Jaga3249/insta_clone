@@ -1,4 +1,4 @@
-import { Box, Flex, Link } from "@chakra-ui/react";
+import { Box, Button, Flex, Link } from "@chakra-ui/react";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
@@ -13,6 +13,7 @@ import {
 import { Tooltip } from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
 import { BiLogOutCircle } from "react-icons/bi";
+import useLogout from "../../Hooks/useLogout";
 
 const SideBar = () => {
   const sideBarItem = [
@@ -42,6 +43,9 @@ const SideBar = () => {
       link: "/",
     },
   ];
+
+  const { isLoggingOut, error, handleLogout } = useLogout();
+  console.log("isLoggingOut", isLoggingOut);
   return (
     <Box
       h={"100vh"}
@@ -115,8 +119,8 @@ const SideBar = () => {
           placement="right-start"
           hasArrow
         >
-          <Link
-            display={"flex"}
+          <Flex
+            onClick={handleLogout}
             alignItems={"center"}
             justifyContent={{ base: "center", md: "start" }}
             gap={2}
@@ -129,8 +133,13 @@ const SideBar = () => {
             w={"100%"}
           >
             <BiLogOutCircle size={25} />
-            <Box display={{ base: "none", md: "block" }}>Logout</Box>
-          </Link>
+            <Button
+              display={{ base: "none", md: "block" }}
+              isLoading={isLoggingOut}
+            >
+              Logout
+            </Button>
+          </Flex>
         </Tooltip>
       </Flex>
     </Box>

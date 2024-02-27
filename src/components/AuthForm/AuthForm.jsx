@@ -45,7 +45,7 @@ const AuthForm = () => {
       <VStack spacing={3}>
         <Image src={instagramLogo} h={16} />
 
-        {isLogin ? <Login /> : <SignUp />}
+        {isLogin ? <Login /> : <SignUp setIsLogin={setIsLogin} />}
 
         {/* or text */}
         <Flex w={"full"} justifyContent={"center"} alignItems={"center"}>
