@@ -10,8 +10,11 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import instagramLogo from "../../../public/logo.png";
-import googlelogo from "../../../public/google.png";
+
 import { toast } from "react-toastify";
+import Login from "./Login";
+import SignUp from "./SignUp";
+import GoogleAuth from "./GoogleAuth";
 
 const AuthForm = () => {
   const initialState = {
@@ -41,42 +44,8 @@ const AuthForm = () => {
     <Box border={"1px solid gray"} borderRadius={"6px"} p={3}>
       <VStack spacing={3}>
         <Image src={instagramLogo} h={16} />
-        <Input
-          placeholder="Email"
-          type="text"
-          fontSize={14}
-          value={userDetail.email}
-          onChange={(e) =>
-            setUserDetail({ ...userDetail, email: e.target.value })
-          }
-        />
-        <Input
-          placeholder="Password"
-          type="password"
-          fontSize={14}
-          value={userDetail.password}
-          onChange={(e) =>
-            setUserDetail({ ...userDetail, password: e.target.value })
-          }
-          onKeyDown={handleKeyPress}
-        />
-        {!isLogin ? (
-          <Input
-            placeholder="Conform Password "
-            type="password"
-            fontSize={14}
-            onKeyDown={handleKeyPress}
-          />
-        ) : null}
-        <Button
-          colorScheme="teal"
-          size="md"
-          width={"full"}
-          onClick={handleAuth}
-          isLoading={loading}
-        >
-          {isLogin ? "Log in" : "Sign up"}
-        </Button>
+
+        {isLogin ? <Login /> : <SignUp />}
 
         {/* or text */}
         <Flex w={"full"} justifyContent={"center"} alignItems={"center"}>
@@ -84,16 +53,8 @@ const AuthForm = () => {
           <Text mx={1}>OR</Text>
           <Box h={"1px"} flex={2} border={"1px solid gray"}></Box>
         </Flex>
-        <Flex
-          justifyContent={"center"}
-          alignItems={"center"}
-          cursor={"pointer"}
-        >
-          <Image src={googlelogo} h={6} />
-          <Text mx={2} color={"blue.300"}>
-            Login with google
-          </Text>
-        </Flex>
+        <GoogleAuth />
+
         <Flex
           justifyContent={"center"}
           alignItems={"center"}
@@ -113,7 +74,7 @@ const AuthForm = () => {
               setIsLogin(!isLogin);
             }}
           >
-            {isLogin ? "Login" : "Signup"}
+            {isLogin ? "Signup" : "Login"}
           </Box>
         </Flex>
       </VStack>
