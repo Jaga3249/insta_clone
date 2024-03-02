@@ -1,11 +1,17 @@
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth, firestore } from "../firebase/fireBase";
+import {  auth, firestore } from "../firebase/fireBase";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "../store/AuthStore";
 
 const useSignupWithEmailAndPassword = () => {
-  const [createUserWithEmailAndPassword,  loading, error] =useCreateUserWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, error,loading,user] = useCreateUserWithEmailAndPassword(auth);
+
+  // console.log("loading", loading);
+  // const loginuser = useAuthStore((state) => (state.login))
+  // console.log("loginuser",loginuser)
+  // const logout=useAuthStore((state)=>(state.logout))
 // user signup 
   const signUp = async (
     signUpDetail,
@@ -17,8 +23,8 @@ const useSignupWithEmailAndPassword = () => {
     if (
       !signUpDetail.email ||
       !signUpDetail.password ||
-      !signUpDetail.fullName ||
-      !signUpDetail.userName
+      !signUpDetail.fullName 
+     
     ) {
       toast.info("Fill the All Fields");
       return;
@@ -28,18 +34,17 @@ const useSignupWithEmailAndPassword = () => {
       const newUser = await createUserWithEmailAndPassword(
         signUpDetail.email,
         signUpDetail.password
-        );
-        
-        console.log("newUser",newUser)
+      );
+      
       if (!newUser && error) {
+        
         toast.error("invalid credential");
-        console.log(error);
+        
         return;
       } else if (newUser) {
         const userDoc = {
           uid: newUser.user.uid,
           email: signUpDetail.email,
-          userName: signUpDetail.userName,
           fullName: signUpDetail.fullName,
           bio: "",
           profilepicurl: "",
@@ -48,14 +53,16 @@ const useSignupWithEmailAndPassword = () => {
           posts: [],
           createdAt: Date.now(),
         };
-        await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
-        localStorage.setItem("user_info", JSON.stringify(userDoc));
+        await setDoc(doc(firestore, "Signup_users", newUser.user.uid), userDoc);
+        // localStorage.setItem("user_info", JSON.stringify(userDoc));
+        // loginuser(userDoc)
+
         setSignUpDetail(initialState);
         setIsLogin(true);
         toast.success("user signup sucessfully");
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       toast.error("Something Went Wrong");
     }
   };
@@ -63,6 +70,7 @@ const useSignupWithEmailAndPassword = () => {
     signUp,
     loading,
     error,
+    user
   };
 };
 export default useSignupWithEmailAndPassword;

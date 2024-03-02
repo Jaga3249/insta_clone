@@ -1,11 +1,16 @@
-import { Button, Input } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
+import useUserLogin from "../../Hooks/useSignInWithEmailAndPassword";
+// import useSigninWithEmailAndPassword from "../../Hooks/useSignInWithEmailAndPassword";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+
+  const { signinUser, loading, error } = useUserLogin();
+  console.log("loading", loading);
   return (
     <>
       <Input
@@ -23,14 +28,21 @@ const Login = () => {
         onChange={(e) =>
           setLoginData({ ...loginData, password: e.target.value })
         }
-        // onKeyDown={handleKeyPress}
       />
+
+      {error && (
+        <Alert status="error">
+          <AlertIcon />
+          {error.message}
+        </Alert>
+      )}
 
       <Button
         colorScheme="teal"
         size="md"
         width={"full"}
-        // onClick={handleAuth}
+        onClick={() => signinUser(loginData)}
+        isLoading={loading}
         // isLoading={loading}
       >
         Log in

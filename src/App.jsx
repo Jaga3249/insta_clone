@@ -1,11 +1,15 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./Pages/HomePage/HomePage";
 import AuthPage from "./Pages/AuthPage/AuthPage";
-import { Bounce, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import PageLayout from "./Layout/PageLayout/PageLayout";
 import ProfilePage from "./Pages/ProfilePage/ProfilePage";
 
+import useAuthStore from "./store/AuthStore";
+
 const App = () => {
+  // const authuser = useAuthStore((state) => state.user);
+  // console.log("authuser", authuser);
   return (
     <PageLayout>
       <ToastContainer
