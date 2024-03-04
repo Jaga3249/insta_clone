@@ -41,7 +41,7 @@ const AuthForm = () => {
     }
   };
   return (
-    <Box border={"1px solid gray"} borderRadius={"6px"} p={3}>
+    <Box border={"1px solid gray"} borderRadius={"6px"} p={3} width>
       <VStack spacing={3}>
         <Image src={instagramLogo} h={16} />
 

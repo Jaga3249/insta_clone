@@ -2,12 +2,13 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   Alert,
   AlertIcon,
+  Box,
   Button,
   Input,
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useSignupWithEmailAndPassword from "../../Hooks/useSignupWithEmailAndPassword";
 
 const SignUp = ({ setIsLogin }) => {
@@ -19,6 +20,7 @@ const SignUp = ({ setIsLogin }) => {
   const [signUpDetail, setSignUpDetail] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
   const { loading, signUp, user } = useSignupWithEmailAndPassword();
+  console.log("loading", loading);
 
   const handleKeyPress = (
     signUpDetail,
@@ -57,6 +59,7 @@ const SignUp = ({ setIsLogin }) => {
   return (
     <>
       <Input
+        variant="flushed"
         placeholder="Full Name"
         type="text"
         name="fullName"
@@ -66,6 +69,7 @@ const SignUp = ({ setIsLogin }) => {
       />
 
       <Input
+        variant="flushed"
         placeholder="Email"
         type="text"
         fontSize={14}
@@ -75,6 +79,7 @@ const SignUp = ({ setIsLogin }) => {
       />
       <InputGroup>
         <Input
+          variant="flushed"
           placeholder="Password"
           type={showPassword ? "text" : "password"}
           fontSize={14}

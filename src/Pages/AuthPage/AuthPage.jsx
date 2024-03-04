@@ -7,14 +7,23 @@ import microsoft from "../../../public/microsoft.png";
 const AuthPage = () => {
   return (
     <Flex justifyContent={"center"} alignItems={"center"} minH={"100vh"} px={4}>
-      <Container maxW={"container.md"}>
-        <Flex justifyContent={"center"} gap={10}>
+      <Container maxW={"container.lg"}>
+        <Flex justifyContent={"center"}>
           {/* left hand side  */}
-          <Box display={{ base: "none", md: "block" }} cursor={"pointer"}>
+          <Box
+            display={{ base: "none", md: "block" }}
+            cursor={"pointer"}
+            // width={"100%"}
+          >
             <Image src={leftImg} alt="" h={550} />
           </Box>
           {/* right hand-side */}
-          <VStack spacing={2} alignItems={"center"} justifyContent={"center"}>
+          <VStack
+            spacing={2}
+            alignItems={"center"}
+            justifyContent={"center"}
+            width={"40%"}
+          >
             <AuthForm />
             <Box>Get app</Box>
             <Flex justifyContent={"center"} gap={4} cursor={"pointer"}>
