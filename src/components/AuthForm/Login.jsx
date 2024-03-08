@@ -4,43 +4,41 @@ import {
   Box,
   Button,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import useUserLogin from "../../Hooks/useSignInWithEmailAndPassword";
-// import useSigninWithEmailAndPassword from "../../Hooks/useSignInWithEmailAndPassword";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+
+import UseSignInWithEmailAndPassword from "../../Hooks/UseSignInWithEmailAndPassword";
 
 const Login = () => {
   const initialState = {
     email: "",
     password: "",
   };
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [loginData, setLoginData] = useState(initialState);
 
-  const { signinUser, error, user, loading } = useUserLogin();
+  const [showPassword, setShowPassword] = useState(false);
 
-  // console.log("loading", loading);
-  // console.log(user);
+  const [loading, setLoading] = useState(false);
+  const { userLogin } = UseSignInWithEmailAndPassword();
 
-  const custumeMsg = (msg) => {
-    switch (msg) {
-      case "auth/invalid-email":
-        return "Invalid email";
-      case "auth/invalid-credential":
-        return "Invalid Credential";
+  const handlechange = (e) => {
+    const { value, name } = e.target;
+    if (name === "password") {
+      value === "" && setShowPassword(false);
+      setLoginData((prev) => {
+        return { ...prev, password: value };
+      });
+    } else {
+      setLoginData((prev) => ({ ...prev, [name]: value }));
     }
   };
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      signinUser(loginData, initialState, setLoginData);
+      userLogin(loginData, setLoginData, setLoading, initialState);
     }
   };
 
@@ -49,22 +47,33 @@ const Login = () => {
       <Input
         variant="flushed"
         placeholder="Email"
+        name="email"
         type="text"
         fontSize={14}
         value={loginData.email}
-        onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+        onChange={handlechange}
       />
-      <Input
-        variant="flushed"
-        placeholder="Password"
-        type="password"
-        fontSize={14}
-        value={loginData.password}
-        onChange={(e) =>
-          setLoginData({ ...loginData, password: e.target.value })
-        }
-        onKeyDown={handleKeyPress}
-      />
+      <InputGroup>
+        <Input
+          name="password"
+          variant="flushed"
+          placeholder="Password"
+          type={showPassword ? "text" : "password"}
+          fontSize={14}
+          value={loginData.password}
+          onChange={handlechange}
+          onKeyDown={handleKeyPress}
+        />
+        <InputRightElement>
+          <Button
+            onClick={() => {
+              if (loginData.password !== "") setShowPassword(!showPassword);
+            }}
+          >
+            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+          </Button>
+        </InputRightElement>
+      </InputGroup>
 
       <Box
         as="span"
@@ -75,46 +84,19 @@ const Login = () => {
         marginTop={"-8px"}
         cursor={"pointer"}
         color={"#5e5ea9"}
-        onClick={onOpen}
+        // onClick={onOpen}
       >
         ForgotPassword
       </Box>
-      {
-        <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Reset Password</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody display={"flex"} flexDirection={"column"} gap={3}>
-              <Input
-                variant="flushed"
-                placeholder="Enter your password"
-                type="text"
-              />
-              <Input
-                variant="flushed"
-                placeholder="Confirm your password"
-                type="password"
-              />
-              <Button colorScheme="teal" size="sm" width={"100%"}>
-                Submit
-              </Button>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      }
-      {user && (
-        <Alert status="error">
-          <AlertIcon />
-          {custumeMsg(user.code)}
-        </Alert>
-      )}
+
       <Button
         colorScheme="messenger"
         size="md"
         width={"full"}
-        onClick={() => signinUser(loginData, initialState, setLoginData)}
         isLoading={loading}
+        onClick={() =>
+          userLogin(loginData, setLoginData, setLoading, initialState)
+        }
       >
         Log in
       </Button>

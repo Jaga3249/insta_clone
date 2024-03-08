@@ -8,28 +8,21 @@ import ProfilePage from "./Pages/ProfilePage/ProfilePage";
 import useAuthStore from "./store/AuthStore";
 
 const App = () => {
-  // const authuser = useAuthStore((state) => state.user);
-  // console.log("authuser", authuser);
+  const authuser = useAuthStore((state) => state.user);
+
   return (
     <PageLayout>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition:Bounce
-      />
       {/* Same as */}
       <ToastContainer />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/auth" element={<AuthPage />} />
+        <Route
+          path="/"
+          element={authuser ? <HomePage /> : <Navigate to={"/auth"} />}
+        />
+        <Route
+          path="/auth"
+          element={!authuser ? <AuthPage /> : <Navigate to="/" />}
+        />
         <Route path="/:username" element={<ProfilePage />} />
       </Routes>
     </PageLayout>

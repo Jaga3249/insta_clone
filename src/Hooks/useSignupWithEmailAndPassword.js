@@ -1,76 +1,73 @@
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import {  auth, firestore } from "../firebase/fireBase";
-import { doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, firestore } from "../firebase/fireBase";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import useAuthStore from "../store/AuthStore";
+import { doc, setDoc } from "firebase/firestore";
 
-const useSignupWithEmailAndPassword = () => {
-  const [createUserWithEmailAndPassword, error,loading,user] = useCreateUserWithEmailAndPassword(auth);
-
-  // console.log("loading", loading);
-  // const loginuser = useAuthStore((state) => (state.login))
-  // console.log("loginuser",loginuser)
-  // const logout=useAuthStore((state)=>(state.logout))
-// user signup 
-  const signUp = async (
+const UseSignupWithEmailAndPassword = () => {
+  const createUser = async (
     signUpDetail,
     setSignUpDetail,
-    initialState,
-    setIsLogin
+    setLoading,
+    setIsLogin,
+    initialState
   ) => {
-    
+    setLoading(true);
     if (
-      !signUpDetail.email ||
-      !signUpDetail.password ||
-      !signUpDetail.fullName 
-     
+      signUpDetail.fullName === "" ||
+      signUpDetail.userName === "" ||
+      signUpDetail.email === "" ||
+      signUpDetail.password === "" ||
+      signUpDetail.confirmPassword === ""
     ) {
-      toast.info("Fill the All Fields");
+      toast.info("Fill the all fields", {
+        onClose: () => {
+          setLoading(false);
+        },
+      });
+
       return;
     }
-
     try {
-      const newUser = await createUserWithEmailAndPassword(
+      const res = await createUserWithEmailAndPassword(
+        auth,
         signUpDetail.email,
         signUpDetail.password
       );
-      
-      if (!newUser && error) {
-        
-        toast.error("invalid credential");
-        
-        return;
-      } else if (newUser) {
-        const userDoc = {
-          uid: newUser.user.uid,
-          email: signUpDetail.email,
+      if (res) {
+        const signUpDoc = {
           fullName: signUpDetail.fullName,
+          email: signUpDetail.email,
+          userName: signUpDetail.userName,
+          uid: res?.user?.uid,
           bio: "",
-          profilepicurl: "",
+          profilePicUrl: "",
           followers: [],
           following: [],
-          posts: [],
-          createdAt: Date.now(),
+          createdAt: res?.user?.metadata.creationTime,
         };
-        await setDoc(doc(firestore, "Signup_users", newUser.user.uid), userDoc);
-        // localStorage.setItem("user_info", JSON.stringify(userDoc));
-        // loginuser(userDoc)
-
+        // add document
+        await setDoc(doc(firestore, "signUpUser", res?.user?.uid), signUpDoc);
         setSignUpDetail(initialState);
         setIsLogin(true);
-        toast.success("user signup sucessfully");
       }
+      setLoading(false);
+      toast.success("user signup sucessfully");
+      // console.log("res", res);
     } catch (error) {
-      console.log(error.message);
-      toast.error("Something Went Wrong");
+      // console.log(error.code);
+      if (error.code === "auth/weak-password") {
+        toast.info("Please choose strong password");
+      } else if (error.code === "auth/email-already-in-use") {
+        toast.info("email is already exist");
+      } else if (error.code === "auth/invalid-email") {
+        toast.info("please enter valid email");
+      }
+      setLoading(false);
+      // toast.error("Something Went Wrong");
+    } finally {
+      setLoading(false);
     }
   };
-  return {
-    signUp,
-    loading,
-    error,
-    user
-  };
+  return { createUser };
 };
-export default useSignupWithEmailAndPassword;
+export default UseSignupWithEmailAndPassword;

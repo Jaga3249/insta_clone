@@ -1,22 +1,30 @@
-import React from 'react'
-import { auth } from '../firebase/fireBase';
-import { useSignOut } from 'react-firebase-hooks/auth';
-import { toast } from 'react-toastify';
-import useAuthStore from '../store/AuthStore';
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/fireBase";
+import { toast } from "react-toastify";
+import UseDeleteDocumentFromFirestore from "./UseDeleteDocumentFromFirestore";
+import useAuthStore from "../store/AuthStore";
 
-const useLogout = () => {
-    const [signOut, isLoggingOut, error] = useSignOut(auth);
-    const logoutUser=useAuthStore((state)=>state.logout)
-    // logout user
-    const handleLogout = async () => {
-        await signOut();
-        localStorage.removeItem("user_info");
-        logoutUser();
-        toast.info("user Logout Sucessfully")
+const UseLogOut = () => {
+  const removeUserFromStore = useAuthStore((state) => state.clearStorage);
+  const { removeDocument } = UseDeleteDocumentFromFirestore();
+  const handleLogout = async (setLoading) => {
+    const userToBeLogout = JSON.parse(localStorage.getItem("loginUserInfo"));
+
+    try {
+      setLoading(true);
+      const res = await signOut(auth);
+      removeDocument(userToBeLogout.uid);
+      // localStorage.removeItem("loginUserInfo");
+      removeUserFromStore("loginUserInfo");
+      setLoading(false);
+      toast.success("user logout sucessfully");
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-    return {
-        isLoggingOut, error,handleLogout
-  }
-}
-
-export default useLogout
+  };
+  return { handleLogout };
+};
+export default UseLogOut;

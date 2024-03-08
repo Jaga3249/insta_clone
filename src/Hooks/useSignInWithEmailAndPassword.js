@@ -1,52 +1,63 @@
-import React from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, firestore } from "../firebase/fireBase";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import { doc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import useAuthStore from "../store/AuthStore";
+const UseSignInWithEmailAndPassword = () => {
+  const loginUser = useAuthStore((state) => state.login);
 
-const useUserLogin = () => {
-  const navigte = useNavigate();
-  const [signInWithEmailAndPassword, error, loading, user, additionalUserInfo] =
-    useSignInWithEmailAndPassword(auth);
-
-  // console.log(loading);
-
-  const signinUser = async (logindata, initialState, setLoginData) => {
-    if (!logindata.email || !logindata.password) {
-      toast.info("Fill the All Fields");
-
+  const userLogin = async (
+    loginData,
+    setLoginData,
+    setLoading,
+    initialState
+  ) => {
+    setLoading(true);
+    if (loginData.email === "" || loginData.password === "") {
+      toast.info("Fill the all fields", {
+        onClose: () => {
+          setLoading(false);
+        },
+      });
       return;
     }
     try {
-      const { user } = await signInWithEmailAndPassword(
-        logindata.email,
-        logindata.password
+      const res = await signInWithEmailAndPassword(
+        auth,
+        loginData?.email,
+        loginData?.password
       );
-      if (!user && error) {
-        toast.info("Invalid Credential");
 
-        return;
-      } else if (user) {
-        const loginUserDoc = {
-          acessToken: user.accessToken,
-          email: logindata.email,
-          uid: user.uid,
-          loginTime: user.metadata.lastSignInTime,
+      if (res) {
+        const login_userDoc = {
+          uid: res?.user?.uid,
+          email: loginData.email,
+          accessToken: res?.user?.accessToken,
+          loginTime: res?.user?.metadata?.lastSignInTime,
         };
-        await setDoc(doc(firestore, "login_user", user.uid), loginUserDoc);
-        localStorage.setItem("login_data", loginUserDoc);
-
+        await setDoc(doc(firestore, "login_user", res.user.uid), login_userDoc);
+        localStorage.setItem("loginUserInfo", JSON.stringify(login_userDoc));
+        loginUser(login_userDoc);
         setLoginData(initialState);
-        navigte("/");
+        setLoading(false);
         toast.success("user login sucessfully");
       }
     } catch (error) {
-      toast.error("Something Went Wrong");
-      console.log(error);
+      console.log(error.code);
+      if (error.code === "auth/invalid-credential") {
+        toast.info("Invalid credential");
+        setLoading(false);
+      } else if (error.code === "auth/invalid-email") {
+        toast.info("Enter valid email");
+        setLoading(false);
+      } else {
+        toast.info("Too many request try after sometime");
+      }
+    } finally {
+      setLoading(false);
     }
   };
-  return { signinUser, error, user, loading };
-};
 
-export default useUserLogin;
+  return { userLogin };
+};
+export default UseSignInWithEmailAndPassword;

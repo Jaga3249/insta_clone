@@ -8,13 +8,9 @@ const AuthPage = () => {
   return (
     <Flex justifyContent={"center"} alignItems={"center"} minH={"100vh"} px={4}>
       <Container maxW={"container.lg"}>
-        <Flex justifyContent={"center"}>
+        <Flex justifyContent={"center"} alignItems={"center"} gap={10}>
           {/* left hand side  */}
-          <Box
-            display={{ base: "none", md: "block" }}
-            cursor={"pointer"}
-            // width={"100%"}
-          >
+          <Box display={{ base: "none", md: "block" }} cursor={"pointer"}>
             <Image src={leftImg} alt="" h={550} />
           </Box>
           {/* right hand-side */}
@@ -22,14 +18,9 @@ const AuthPage = () => {
             spacing={2}
             alignItems={"center"}
             justifyContent={"center"}
-            width={"40%"}
+            // width={"0%"}
           >
             <AuthForm />
-            <Box>Get app</Box>
-            <Flex justifyContent={"center"} gap={4} cursor={"pointer"}>
-              <Image src={playstoreLogo} alt="Playstore logo" h={"10"} />
-              <Image src={microsoft} h={"10"} alt="google logo" />
-            </Flex>
           </VStack>
         </Flex>
       </Container>

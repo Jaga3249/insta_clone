@@ -29,7 +29,7 @@ const PostFooter = ({ userName, isProfilePage }) => {
   };
 
   return (
-    <Box mb={4}>
+    <Box mb={4} display={"flex"} flexDirection={"column"} gap={1}>
       <Flex alignItems={"center"} gap={4} cursor={"pointer"} my={1}>
         <Box onClick={handleLiked} fontSize={50}>
           {!liked ? <NotificationsLogo /> : <UnlikeLogo />}

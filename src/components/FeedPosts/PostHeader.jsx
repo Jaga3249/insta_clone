@@ -6,10 +6,17 @@ const PostHeader = ({ avatar, userName }) => {
   return (
     <Flex justifyContent={"space-between"} alignItems={"center"}>
       {/* left side */}
-      <Flex alignItems={"center"} gap={1} cursor={"pointer"}>
+      <Flex alignItems={"center"} gap={2} cursor={"pointer"}>
         <Avatar src={avatar} size={"sm"} />
 
-        <Flex gap={1} fontSize={"16px"}>
+        <Flex
+          gap={1}
+          style={{
+            fontSize: "17px",
+            fontWeight: "bolder",
+            letterSpacing: "0.5px",
+          }}
+        >
           {userName}
           <Text>.1w</Text>
         </Flex>
@@ -17,7 +24,11 @@ const PostHeader = ({ avatar, userName }) => {
       {/* right side */}
       <Box>
         <Text
-          fontSize={"16px"}
+          style={{
+            fontSize: "17px",
+            fontWeight: "bold",
+            letterSpacing: "0.5px",
+          }}
           cursor={"pointer"}
           _hover={{ color: "blue" }}
           transition={"0.2s ease-in-out"}
