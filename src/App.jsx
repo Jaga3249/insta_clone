@@ -8,20 +8,19 @@ import ProfilePage from "./Pages/ProfilePage/ProfilePage";
 import useAuthStore from "./store/AuthStore";
 
 const App = () => {
-  const authuser = useAuthStore((state) => state.user);
+  const { user } = useAuthStore();
 
   return (
     <PageLayout>
-      {/* Same as */}
       <ToastContainer />
       <Routes>
         <Route
           path="/"
-          element={authuser ? <HomePage /> : <Navigate to={"/auth"} />}
+          element={user ? <HomePage /> : <Navigate to={"/auth"} />}
         />
         <Route
           path="/auth"
-          element={!authuser ? <AuthPage /> : <Navigate to="/" />}
+          element={!user ? <AuthPage /> : <Navigate to="/" />}
         />
         <Route path="/:username" element={<ProfilePage />} />
       </Routes>

@@ -1,15 +1,21 @@
-import { Flex, Image, Text } from "@chakra-ui/react";
-import React from "react";
+import { Button, Flex, Image, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
 import googlelogo from "../../../public/google.png";
+import UseLoginWithGoogle from "../../Hooks/UseLoginWithGoogle";
 
-const GoogleAuth = () => {
+const GoogleAuth = ({ prefix }) => {
+  const [loading, setLoading] = useState(false);
+  const { loginWithGoogle } = UseLoginWithGoogle();
   return (
-    <Flex justifyContent={"center"} alignItems={"center"} cursor={"pointer"}>
-      <Image src={googlelogo} h={6} />
-      <Text mx={2} color={"blue.300"}>
-        Login with google
-      </Text>
-    </Flex>
+    <Button
+      mx={2}
+      color={"blue.300"}
+      onClick={() => loginWithGoogle(setLoading)}
+      isLoading={loading}
+    >
+      <Image src={googlelogo} h={6} mr={2} />
+      {prefix} with google
+    </Button>
   );
 };
 

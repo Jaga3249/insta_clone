@@ -1,12 +1,17 @@
 import { Avatar, Flex, Link, Text } from "@chakra-ui/react";
 import profilepic from "../../../public/profilepic.png";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import UseLogOut from "../../Hooks/UseLogOut";
 import { useState } from "react";
+import useAuthStore from "../../store/AuthStore";
 
 const SuggestedHeader = () => {
   const [loading, setLoading] = useState(false);
   const { handleLogout } = UseLogOut();
+
+  const { user } = useAuthStore();
+  const navigate = useNavigate();
+
   return (
     <Flex
       justifyContent={"space-between"}
@@ -14,9 +19,17 @@ const SuggestedHeader = () => {
       w={"full"}
       px={2}
     >
-      <Flex justifyContent={"flex-start"} alignItems={"center"} gap={2}>
-        <Avatar src={profilepic} />
-        <Text>Porammer_</Text>
+      <Flex
+        justifyContent={"flex-start"}
+        alignItems={"center"}
+        gap={2}
+        cursor={"pointer"}
+      >
+        <Avatar
+          src={user?.profilePicUrl ? user.profilePicUrl : profilepic}
+          onClick={() => navigate(user.fullName)}
+        />
+        <Text mx={1}>{user.fullName}</Text>
       </Flex>
       <Link
         as={RouterLink}

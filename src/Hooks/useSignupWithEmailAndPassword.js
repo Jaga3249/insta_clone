@@ -3,12 +3,15 @@ import { auth, firestore } from "../firebase/fireBase";
 import { toast } from "react-toastify";
 import { doc, setDoc } from "firebase/firestore";
 
+import useAuthStore from "../store/AuthStore";
+
 const UseSignupWithEmailAndPassword = () => {
+  const { login } = useAuthStore();
   const createUser = async (
     signUpDetail,
     setSignUpDetail,
     setLoading,
-    setIsLogin,
+
     initialState
   ) => {
     setLoading(true);
@@ -35,26 +38,27 @@ const UseSignupWithEmailAndPassword = () => {
       );
       if (res) {
         const signUpDoc = {
+          uid: res?.user?.uid,
           fullName: signUpDetail.fullName,
           email: signUpDetail.email,
-          userName: signUpDetail.userName,
-          uid: res?.user?.uid,
+          password: signUpDetail.password,
           bio: "",
           profilePicUrl: "",
           followers: [],
           following: [],
+          userName: signUpDetail.userName,
           createdAt: res?.user?.metadata.creationTime,
         };
         // add document
-        await setDoc(doc(firestore, "signUpUser", res?.user?.uid), signUpDoc);
+        await setDoc(doc(firestore, "users", res?.user?.uid), signUpDoc);
+        localStorage.setItem("user_info", JSON.stringify(signUpDoc));
+
         setSignUpDetail(initialState);
-        setIsLogin(true);
+        login(signUpDoc);
       }
       setLoading(false);
       toast.success("user signup sucessfully");
-      // console.log("res", res);
     } catch (error) {
-      // console.log(error.code);
       if (error.code === "auth/weak-password") {
         toast.info("Please choose strong password");
       } else if (error.code === "auth/email-already-in-use") {

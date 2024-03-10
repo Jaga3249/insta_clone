@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 const useAuthStore = create((Set) => {
-  const storedUser = JSON.parse(localStorage.getItem("loginUserInfo"));
+  const storedUser = JSON.parse(localStorage.getItem("user_info"));
 
   return {
     user: storedUser,
@@ -9,7 +9,7 @@ const useAuthStore = create((Set) => {
     logout: () => Set({ user: null }),
     setuser: () => Set({ user }),
     clearStorage: () => {
-      localStorage.removeItem("loginUserInfo");
+      localStorage.removeItem("user_info");
       Set({ user: null });
     },
   };

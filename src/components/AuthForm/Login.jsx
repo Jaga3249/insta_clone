@@ -6,25 +6,34 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 import UseSignInWithEmailAndPassword from "../../Hooks/UseSignInWithEmailAndPassword";
+import UseForgotPassword from "../../Hooks/UseForgotPassword";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const initialState = {
     email: "",
     password: "",
   };
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [loginData, setLoginData] = useState(initialState);
 
   const [showPassword, setShowPassword] = useState(false);
-
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const { userLogin } = UseSignInWithEmailAndPassword();
-
+  const { sendResetPasswordMail } = UseForgotPassword();
   const handlechange = (e) => {
     const { value, name } = e.target;
     if (name === "password") {
@@ -39,6 +48,15 @@ const Login = () => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       userLogin(loginData, setLoginData, setLoading, initialState);
+    }
+  };
+  const handleKeyPressForPassword = (e) => {
+    if (e.key === "Enter") {
+      if (!email) {
+        toast.info("Required field cann't empty");
+        return;
+      }
+      sendResetPasswordMail(email, setLoading, setEmail);
     }
   };
 
@@ -84,7 +102,7 @@ const Login = () => {
         marginTop={"-8px"}
         cursor={"pointer"}
         color={"#5e5ea9"}
-        // onClick={onOpen}
+        onClick={onOpen}
       >
         ForgotPassword
       </Box>
@@ -100,6 +118,39 @@ const Login = () => {
       >
         Log in
       </Button>
+      {/* modal for password reset */}
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Password Reset </ModalHeader>
+          <ModalCloseButton
+            onClick={() => {
+              setEmail("");
+              onClose();
+            }}
+          />
+          <ModalBody>
+            <Input
+              variant="flushed"
+              placeholder="Enter your email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={(e) => handleKeyPressForPassword(e)}
+            />
+            <Button
+              width={"full"}
+              colorScheme="teal"
+              size="md"
+              my={3}
+              onClick={() => sendResetPasswordMail(email, setLoading)}
+              isLoading={loading}
+            >
+              Send
+            </Button>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

@@ -8,10 +8,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import UseSignupWithEmailAndPassword from "../../Hooks/UseSignUpWithEmailAndPassword";
-import { color } from "framer-motion";
+
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-const SignUp = ({ setIsLogin }) => {
+const SignUp = () => {
   const initialState = {
     fullName: "",
     userName: "",
@@ -28,10 +28,10 @@ const SignUp = ({ setIsLogin }) => {
   const handleSignDetailChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "password") {
-      setShowPassword(value !== "");
+    if (name === "confirmPassword") {
+      // setShowPassword(value !== "");
       setSignUpDetail((prev) => {
-        return { ...prev, password: value };
+        return { ...prev, confirmPassword: value };
       });
     } else if (name === "fullName") {
       const stringWithoutNumber = value
@@ -54,7 +54,7 @@ const SignUp = ({ setIsLogin }) => {
         signUpDetail,
         setSignUpDetail,
         setLoading,
-        setIsLogin,
+
         initialState
       );
     }
@@ -83,37 +83,40 @@ const SignUp = ({ setIsLogin }) => {
         value={signUpDetail.email}
         onChange={handleSignDetailChange}
       />
+      <Input
+        name="password"
+        variant="flushed"
+        placeholder="Enter your password"
+        value={signUpDetail.password}
+        onChange={handleSignDetailChange}
+        type="password"
+      />
+
       <InputGroup>
         <Input
-          name="password"
+          name="confirmPassword"
           variant="flushed"
-          placeholder="Enter your password"
-          value={signUpDetail.password}
-          onChange={handleSignDetailChange}
           type={showPassword ? "text" : "password"}
+          placeholder="Enter your confirm password"
+          value={signUpDetail.confirmPassword}
+          onChange={handleSignDetailChange}
+          onKeyDown={(e) => handleKeyPress(e)}
         />
         <InputRightElement>
           <Button
             onClick={() => {
-              if (signUpDetail.password !== "") {
+              if (signUpDetail.confirmPassword === "") {
+                setShowPassword(true);
+              } else {
                 setShowPassword(!showPassword);
               }
             }}
-            onKeyDown={(e) => handleShowStatus(e)}
           >
             {showPassword ? <ViewIcon /> : <ViewOffIcon />}
           </Button>
         </InputRightElement>
       </InputGroup>
 
-      <Input
-        name="confirmPassword"
-        variant="flushed"
-        placeholder="Enter your confirm password"
-        value={signUpDetail.confirmPassword}
-        onChange={handleSignDetailChange}
-        onKeyDown={(e) => handleKeyPress(e)}
-      />
       {signUpDetail.password !== signUpDetail.confirmPassword &&
         signUpDetail.confirmPassword !== "" && (
           <p
@@ -136,7 +139,7 @@ const SignUp = ({ setIsLogin }) => {
             signUpDetail,
             setSignUpDetail,
             setLoading,
-            setIsLogin,
+
             initialState
           )
         }

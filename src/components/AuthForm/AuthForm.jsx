@@ -45,13 +45,13 @@ const AuthForm = () => {
       border={"1px solid gray"}
       borderRadius={"6px"}
       p={3}
-      height={isLogin ? "auto" : "530px"}
+      height={isLogin ? "auto" : "550px"}
       width={320}
     >
       <VStack spacing={3}>
         <Image src={instagramLogo} h={16} />
 
-        {isLogin ? <Login /> : <SignUp setIsLogin={setIsLogin} />}
+        {isLogin ? <Login /> : <SignUp />}
 
         {/* or text */}
         <Flex w={"full"} justifyContent={"center"} alignItems={"center"}>
@@ -59,7 +59,7 @@ const AuthForm = () => {
           <Text mx={1}>OR</Text>
           <Box h={"1px"} flex={2} border={"1px solid gray"}></Box>
         </Flex>
-        <GoogleAuth />
+        <GoogleAuth prefix={isLogin ? "LogIn" : "SignUp"} />
 
         <Flex
           justifyContent={"center"}
