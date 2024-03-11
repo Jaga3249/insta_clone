@@ -24,11 +24,12 @@ const UseLoginWithGoogle = () => {
           uid: res?.user?.uid,
           fullName: res?.user?.displayName,
           email: res?.user?.email,
-
+          username: res?.user?.displayName,
           bio: "",
           profilePicUrl: res?.user?.photoURL,
           followers: [],
           following: [],
+          post: [],
           loginTime: res?.user?.metadata.creationTime,
         };
         let data;

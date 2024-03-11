@@ -168,13 +168,10 @@ const SideBar = () => {
                   borderRadius={6}
                   mt={"40%"}
                   w={"100%"}
+                  onClick={() => handleLogout(setLoading)}
                 >
                   <BiLogOutCircle size={27} />
-                  <Box
-                    as="span"
-                    display={{ base: "none", md: "block" }}
-                    onClick={() => handleLogout(setLoading)}
-                  >
+                  <Box as="span" display={{ base: "none", md: "block" }}>
                     Logout
                   </Box>
                 </Flex>

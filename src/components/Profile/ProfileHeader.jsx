@@ -12,7 +12,18 @@ import React from "react";
 import profilePhoto from "../../../public/profilepic.png";
 import { BiSolidEdit } from "react-icons/bi";
 
+import { useParams } from "react-router-dom";
+import { UserProfileStore } from "../../store/UserProfileStore";
+import useAuthStore from "../../store/AuthStore";
+
 const ProfileHeader = () => {
+  const { userProfile } = UserProfileStore();
+  const { user } = useAuthStore();
+  console.log("user", user);
+  const visitOwnProfileAndAuth = user && user.fullName === userProfile.fullName;
+  const visitAnotherProfileAndAuth =
+    user && user.fullName !== userProfile.fullName;
+
   return (
     <>
       <Flex
@@ -26,7 +37,14 @@ const ProfileHeader = () => {
       >
         {/* left side */}
         <AvatarGroup size="xl">
-          <Avatar name="As a Pogrammer" src={profilePhoto} />
+          <Avatar
+            name="As a Pogrammer"
+            src={
+              userProfile.profilePicUrl
+                ? userProfile.profilePicUrl
+                : profilePhoto
+            }
+          />
         </AvatarGroup>
         {/* right side */}
         <VStack spacing={1} py={2}>
@@ -36,25 +54,30 @@ const ProfileHeader = () => {
             alignItems={"center"}
             gap={4}
           >
-            <Text fontSize={20}>Pogrammer</Text>
-            {/* <Button
-              rightIcon={<BiSolidEdit size={22} />}
-              colorScheme="teal"
-              variant="outline"
-            >
-              Edit profile
-            </Button> */}
+            <Text fontSize={20}>{userProfile.fullName}</Text>
 
-            <Button
-              bg={"white"}
-              color={"black"}
-              _hover={{ bg: "whiteAlpha.800" }}
-              size={{ base: "xs", md: "sm" }}
-              rightIcon={<BiSolidEdit size={22} />}
-              // onClick={onOpen}
-            >
-              Edit Profile
-            </Button>
+            {visitOwnProfileAndAuth && (
+              <Button
+                bg={"white"}
+                color={"black"}
+                _hover={{ bg: "whiteAlpha.800" }}
+                size={{ base: "xs", md: "sm" }}
+                rightIcon={<BiSolidEdit size={22} />}
+                // onClick={onOpen}
+              >
+                Edit Profile
+              </Button>
+            )}
+            {visitAnotherProfileAndAuth && (
+              <Button
+                bg={"blue.500"}
+                color={"white"}
+                _hover={{ bg: "blue.600" }}
+                size={{ base: "xs", md: "md" }}
+              >
+                Follow
+              </Button>
+            )}
           </Flex>
           <Flex
             w={"full"}
@@ -63,8 +86,9 @@ const ProfileHeader = () => {
             gap={2}
           >
             <Text as="span" fontSize={16} fontWeight={"bold"} color={"white"}>
-              4{" "}
+              {userProfile.post.length}
               <Text
+                ml={2}
                 as={"span"}
                 fontSize={18}
                 fontWeight={500}
@@ -75,7 +99,7 @@ const ProfileHeader = () => {
               </Text>
             </Text>
             <Text fontWeight={"bold"} as="span" fontSize={16}>
-              149
+              {userProfile.followers.length}
               <Text
                 ml={2}
                 as={"span"}
@@ -89,7 +113,7 @@ const ProfileHeader = () => {
             </Text>
 
             <Text fontWeight={"bold"} as="span" fontSize={16}>
-              200
+              {userProfile.following.length}
               <Text
                 ml={2}
                 as={"span"}
@@ -102,11 +126,9 @@ const ProfileHeader = () => {
               </Text>
             </Text>
           </Flex>
-          {/* <Text w={"full"} fontSize={15}>
-              As a Pogrammer
-            </Text> */}
+
           <Text fontSize={16} width={"100%"}>
-            Tutorilas that meants for levelup your skill
+            {userProfile.bio}
           </Text>
         </VStack>
       </Flex>
