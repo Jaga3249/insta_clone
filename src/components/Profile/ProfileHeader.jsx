@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
 import profilePhoto from "../../../public/profilepic.png";
@@ -15,14 +16,17 @@ import { BiSolidEdit } from "react-icons/bi";
 import { useParams } from "react-router-dom";
 import { UserProfileStore } from "../../store/UserProfileStore";
 import useAuthStore from "../../store/AuthStore";
+import EditProfile from "./EditProfile";
 
 const ProfileHeader = () => {
   const { userProfile } = UserProfileStore();
   const { user } = useAuthStore();
-  console.log("user", user);
+
   const visitOwnProfileAndAuth = user && user.fullName === userProfile.fullName;
   const visitAnotherProfileAndAuth =
     user && user.fullName !== userProfile.fullName;
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -63,7 +67,7 @@ const ProfileHeader = () => {
                 _hover={{ bg: "whiteAlpha.800" }}
                 size={{ base: "xs", md: "sm" }}
                 rightIcon={<BiSolidEdit size={22} />}
-                // onClick={onOpen}
+                onClick={onOpen}
               >
                 Edit Profile
               </Button>
@@ -132,6 +136,7 @@ const ProfileHeader = () => {
           </Text>
         </VStack>
       </Flex>
+      {isOpen && <EditProfile isopen={isOpen} onClose={onClose} />}
     </>
   );
 };

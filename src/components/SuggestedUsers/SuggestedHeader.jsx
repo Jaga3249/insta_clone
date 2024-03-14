@@ -26,8 +26,8 @@ const SuggestedHeader = () => {
         cursor={"pointer"}
       >
         <Avatar
-          src={user?.profilePicUrl ? user.profilePicUrl : profilepic}
-          onClick={() => navigate(user.fullName)}
+          src={user.profilePicUrl || profilepic}
+          onClick={() => navigate(user.uid)}
         />
         <Text mx={1}>{user.fullName}</Text>
       </Flex>

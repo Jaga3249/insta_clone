@@ -7,7 +7,7 @@ const useAuthStore = create((Set) => {
     user: storedUser,
     login: (user) => Set({ user }),
     logout: () => Set({ user: null }),
-    setuser: () => Set({ user }),
+    setuser: (user) => Set({ user }),
     clearStorage: () => {
       localStorage.removeItem("user_info");
       Set({ user: null });

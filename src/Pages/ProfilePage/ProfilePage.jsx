@@ -18,6 +18,7 @@ import UseGetUserProfileByFullName from "../../Hooks/UseGetUserProfileByUsername
 const ProfilePage = () => {
   const { username } = useParams();
   const { userProfile, loading } = UseGetUserProfileByFullName(username);
+
   const userNotFound = !loading && !userProfile;
   if (userNotFound) return <UserNotFound />;
 

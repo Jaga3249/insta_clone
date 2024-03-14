@@ -13,7 +13,7 @@ const UseGetUserProfileByFullName = (username) => {
       let userDoc;
       const q = query(
         collection(firestore, "users"),
-        where("fullName", "==", username)
+        where("uid", "==", username)
       );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
