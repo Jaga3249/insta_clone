@@ -46,8 +46,8 @@ const UseSignupWithEmailAndPassword = () => {
           profilePicUrl: "",
           followers: [],
           following: [],
-          post: [],
-          userName: signUpDetail.userName,
+          posts: [],
+          username: signUpDetail.userName,
           createdAt: res?.user?.metadata.creationTime,
         };
         // add document

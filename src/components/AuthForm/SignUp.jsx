@@ -34,10 +34,7 @@ const SignUp = () => {
         return { ...prev, confirmPassword: value };
       });
     } else if (name === "fullName") {
-      const stringWithoutNumber = value
-        .split("")
-        .filter((item) => isNaN(item))
-        .join("");
+      const stringWithoutNumber = value.replace(/[0-9]/g, "");
 
       setSignUpDetail((prev) => {
         return { ...prev, fullName: stringWithoutNumber };

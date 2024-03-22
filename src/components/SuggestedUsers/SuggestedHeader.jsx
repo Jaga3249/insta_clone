@@ -27,7 +27,7 @@ const SuggestedHeader = () => {
       >
         <Avatar
           src={user.profilePicUrl || profilepic}
-          onClick={() => navigate(user.uid)}
+          onClick={() => navigate(user.username)}
         />
         <Text mx={1}>{user.fullName}</Text>
       </Flex>

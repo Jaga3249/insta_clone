@@ -17,10 +17,15 @@ import { useParams } from "react-router-dom";
 import { UserProfileStore } from "../../store/UserProfileStore";
 import useAuthStore from "../../store/AuthStore";
 import EditProfile from "./EditProfile";
+import UseFollowUser from "../../Hooks/UseFollowUser";
+import { BeatLoader } from "react-spinners";
 
 const ProfileHeader = () => {
   const { userProfile } = UserProfileStore();
   const { user } = useAuthStore();
+  const { handleFollowUser, isUpdating, isFollowing } = UseFollowUser(
+    userProfile.uid
+  );
 
   const visitOwnProfileAndAuth = user && user.fullName === userProfile.fullName;
   const visitAnotherProfileAndAuth =
@@ -78,8 +83,11 @@ const ProfileHeader = () => {
                 color={"white"}
                 _hover={{ bg: "blue.600" }}
                 size={{ base: "xs", md: "md" }}
+                isLoading={isUpdating}
+                spinner={<BeatLoader size={8} color="white" />}
+                onClick={handleFollowUser}
               >
-                Follow
+                {isFollowing ? "Unfollow" : "Follow"}
               </Button>
             )}
           </Flex>
@@ -90,7 +98,7 @@ const ProfileHeader = () => {
             gap={2}
           >
             <Text as="span" fontSize={16} fontWeight={"bold"} color={"white"}>
-              {userProfile.post.length}
+              {userProfile?.posts?.length}
               <Text
                 ml={2}
                 as={"span"}

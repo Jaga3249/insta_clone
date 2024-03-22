@@ -6,21 +6,14 @@ import {
   Flex,
   GridItem,
   Image,
-  Input,
-  InputGroup,
-  InputRightElement,
   Modal,
-  ModalBody,
-  ModalCloseButton,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Text,
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 
@@ -29,14 +22,31 @@ import { IoIosClose } from "react-icons/io";
 import { AiOutlineDelete } from "react-icons/ai";
 import Comment from "../Comment/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
+import { UserProfileStore } from "../../store/UserProfileStore";
+import useAuthStore from "../../store/AuthStore";
+import DeletePostModal from "../../Modals/DeletePostModal";
+import PostViewModal from "../../Modals/PostViewModal";
 
-const ProfilePost = ({ img }) => {
+const ProfilePost = ({ posts }) => {
+  // console.log(posts);
+  const [postToBeDelete, setPostToBeDelete] = useState(null);
+  const { userProfile } = UserProfileStore();
+  const [overlay, setOverlay] = useState(<OverlayOne />);
+  const [postViewOverlay, setPostViewOverlay] = useState(<OverlayTwo />);
   const { isOpen, onOpen, onClose } = useDisclosure(true);
+
+  const [selectedItem, setSelectedItem] = useState("");
+
+  // console.log("userProfile", userProfile);
 
   return (
     <>
       <GridItem
-        onClick={onOpen}
+        onClick={() => {
+          setSelectedItem("gridItem");
+          setPostViewOverlay(<OverlayTwo />);
+          onOpen();
+        }}
         templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(3, 1fr)" }}
         gap={1}
         columnGap={1}
@@ -64,107 +74,61 @@ const ProfilePost = ({ img }) => {
             <Box>
               <AiFillHeart size={25} />
             </Box>
-            <Text fontSize={"15px"}>7</Text>
+            <Text fontSize={"15px"}>{posts.likes.length}</Text>
           </Flex>
           <Flex alignItems={"center"} justifyContent={"center"} gap={2}>
             <Box>
               <FaComment size={25} />
             </Box>
-            <Text fontSize={"15px"}>7</Text>
+            <Text fontSize={"15px"}>{posts.comments.length}</Text>
           </Flex>
         </Flex>
         <Image
-          src={img}
+          src={posts.imageUrl}
           alt="Profile Photo"
           w={"100%"}
           h={"100%"}
           objectFit={"fill"}
+          border={"1px solid gray"}
         />
       </GridItem>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        isCentered={true}
-        size={{ base: "sm", md: "2xl" }}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <Flex gap={4} w={{ base: "full", sm: "70%", md: "full" }}>
-            {/* left side */}
-            <Box w={"full"}>
-              <Image
-                src={img}
-                w={"full"}
-                h={"full"}
-                borderRadius={"5px"}
-                overflow={"hidden"}
-              />
-            </Box>
-
-            {/* right side */}
-            <VStack w={"full"} display={{ base: "none", md: "block" }}>
-              {/* top header */}
-              <Flex
-                w={"full"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                p={2}
-                cursor={"pointer"}
-              >
-                {/* header left */}
-                <Flex alignItems={"center"} gap={5}>
-                  <Avatar src={profilePhoto} />
-                  <Text as={"span"}>Pogrammer</Text>
-                </Flex>
-                {/* header right */}
-                <Flex alignItems={"center"} gap={5}>
-                  <AiOutlineDelete size={25} />
-                  <IoIosClose size={25} onClick={onClose} />
-                </Flex>
-              </Flex>
-              <Divider orientation="horizontal" my={1} />
-              {/*   comment section */}
-              <Flex
-                justifyContent={"flex-start"}
-                flexDirection={"column"}
-                w={"full"}
-                h={"200px"}
-                overflow={"auto"}
-              >
-                <Comment
-                  avatar="https://bit.ly/dan-abramov"
-                  userName="Dan Abrahmov"
-                  createdAt="10 days ago"
-                  commentMsg="Nice Picture"
-                />
-                <Comment
-                  avatar="https://bit.ly/kent-c-dodds"
-                  userName="Kent Dodds"
-                  createdAt="10 days ago"
-                  commentMsg="Nice Picture"
-                />
-                <Comment
-                  avatar="https://bit.ly/ryan-florence"
-                  userName="Ryan Florence"
-                  createdAt="10 days ago"
-                  commentMsg="Nice Picture"
-                />
-              </Flex>
-              <Divider orientation="horizontal" my={1} />
-              {/* footer */}
-              <Box
-                // border={"2px solid red"}
-                mx={2}
-                pt={"auto"}
-              >
-                <PostFooter isProfilePage={true} />
-              </Box>
-            </VStack>
-          </Flex>
-        </ModalContent>
-      </Modal>
+      {/* postview modal */}
+      {selectedItem === "gridItem" && isOpen && (
+        <PostViewModal
+          isOpen={isOpen}
+          onClose={onClose}
+          posts={posts}
+          onOpen={onOpen}
+          setSelectedItem={setSelectedItem}
+          setOverlay={setOverlay}
+          postViewOverlay={postViewOverlay}
+          setPostToBeDelete={setPostToBeDelete}
+        />
+      )}
+      {/* deletePost modal */}
+      {isOpen && selectedItem === "deletePost" && (
+        <DeletePostModal
+          isOpen={isOpen}
+          onClose={onClose}
+          overlay={overlay}
+          post={postToBeDelete}
+        />
+      )}
     </>
   );
 };
+export const OverlayOne = () => (
+  <ModalOverlay
+    bg="blackAlpha.300"
+    backdropFilter="blur(10px) hue-rotate(90deg)"
+  />
+);
+
+export const OverlayTwo = () => (
+  <ModalOverlay
+    bg="blackAlpha.300"
+    backdropFilter="blur(10px) hue-rotate(90deg)"
+  />
+);
 
 export default ProfilePost;

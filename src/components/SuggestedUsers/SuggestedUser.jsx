@@ -1,36 +1,75 @@
-import { Avatar, Box, Flex, Text, VStack } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Avatar, Box, Button, Flex, Text, VStack } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import UseFollowUser from "../../Hooks/UseFollowUser";
+import { BeatLoader } from "react-spinners";
+import { BiSolidHandRight } from "react-icons/bi";
+import useAuthStore from "../../store/AuthStore";
+import { RiUserUnfollowFill } from "react-icons/ri";
 
-const SuggestedUser = ({ avatar, userName, followers }) => {
-  const [follow, setFollow] = useState(false);
+const SuggestedUser = ({ suggesteduser, setUser }) => {
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const { handleFollowUser, isUpdating } = UseFollowUser(suggesteduser.uid);
+  const { user } = useAuthStore();
+  const onFollowUser = async () => {
+    await handleFollowUser();
+    setUser({
+      ...suggesteduser,
+      followers: isFollowing
+        ? suggesteduser.following.filter((uid) => uid !== user.uid)
+        : [...suggesteduser.followers, user.uid],
+    });
+  };
+  useEffect(() => {
+    if (suggesteduser) {
+      const follow = suggesteduser.followers.includes(user.uid);
+      setIsFollowing(follow);
+    }
+  }, [isFollowing, suggesteduser]);
+
   return (
     <Flex
       justifyContent={"space-between"}
       alignItems={"center"}
       w={"full"}
-      px={2}
-      py={2}
+      mt={3}
     >
-      <Flex gap={2} alignItems={"center"}>
-        <Avatar src={avatar} />
-        <VStack spacing={0} alignItems={"start"}>
+      <Flex gap={3} alignItems={"center"} justifyContent={"center"}>
+        <Avatar
+          src={suggesteduser.profilePicUrl}
+          width={"40px"}
+          height={"40px"}
+        />
+        <VStack spacing={0} alignItems={"start"} justifyContent={"center"}>
           <Box fontSize={14} color={"gray"}>
-            {userName}
+            {suggesteduser.fullName}
           </Box>
           <Box fontSize={14} color={"gray"}>
-            {followers} followers
+            {suggesteduser.followers.length} followers
           </Box>
         </VStack>
       </Flex>
 
-      <Box
-        onClick={() => setFollow(!follow)}
-        fontSize={16}
-        color={"blue.400"}
-        cursor={"pointer"}
-      >
-        {follow ? "Follow" : "unfollow"}
-      </Box>
+      {suggesteduser.uid !== user.uid && (
+        <Button
+          onClick={onFollowUser}
+          fontSize={16}
+          color={"blue.400"}
+          cursor={"pointer"}
+          spinner={<BeatLoader size={8} color="white" />}
+          isLoading={isUpdating}
+          size={"sm"}
+          rightIcon={
+            isFollowing ? (
+              <RiUserUnfollowFill />
+            ) : (
+              <BiSolidHandRight size={20} />
+            )
+          }
+        >
+          {isFollowing ? "unfollow" : "Follow"}
+        </Button>
+      )}
     </Flex>
   );
 };

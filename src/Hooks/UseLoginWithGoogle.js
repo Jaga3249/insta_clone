@@ -29,7 +29,7 @@ const UseLoginWithGoogle = () => {
           profilePicUrl: res?.user?.photoURL,
           followers: [],
           following: [],
-          post: [],
+          posts: [],
           loginTime: res?.user?.metadata.creationTime,
         };
         let data;
