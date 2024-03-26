@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const UseEditProfile = () => {
   const { user, setuser } = useAuthStore();
-  const { setUserProfile } = UserProfileStore();
+  const { userProfile, setUserProfile } = UserProfileStore();
 
   const [isUpdating, setIsUpdating] = useState(false);
   const editProfile = async (profileEditData, selectedFile) => {

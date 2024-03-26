@@ -20,7 +20,6 @@ const UseGetUserProfileByFullName = (username) => {
         userDoc = doc.data();
       });
       if (!userDoc) {
-        console.log("code here");
         return setUserProfile(null);
       } else {
         setUserProfile(userDoc);

@@ -18,20 +18,22 @@ import useAuthStore from "../store/AuthStore";
 import { UserProfileStore } from "../store/UserProfileStore";
 
 import { OverlayOne } from "../components/Profile/ProfilePost";
+import Caption from "../components/Comment/Caption";
 
 const PostViewModal = ({
   isOpen,
   onClose,
-  posts,
+  post,
   onOpen,
   setSelectedItem,
   setOverlay,
   postViewOverlay,
   setPostToBeDelete,
 }) => {
-  //   const [overlay, setOverlay] = useState(<OverlayOne />);
+  //
   const { userProfile } = UserProfileStore();
   const { user } = useAuthStore();
+
   return (
     <Modal
       isOpen={isOpen}
@@ -41,13 +43,13 @@ const PostViewModal = ({
       closeOnOverlayClick={false}
     >
       {postViewOverlay}
-      {/* <ModalOverlay /> */}
+
       <ModalContent>
         <Flex gap={4} w={{ base: "full", sm: "70%", md: "full" }}>
           {/* left side */}
           <Box w={"full"}>
             <Image
-              src={posts.imageUrl}
+              src={post.imageUrl}
               w={"full"}
               h={"full"}
               borderRadius={"5px"}
@@ -76,7 +78,7 @@ const PostViewModal = ({
                   <AiOutlineDelete
                     size={25}
                     onClick={() => {
-                      setPostToBeDelete(posts);
+                      setPostToBeDelete(post);
 
                       setSelectedItem("deletePost");
                       setOverlay(<OverlayOne />);
@@ -97,24 +99,13 @@ const PostViewModal = ({
               h={"200px"}
               overflow={"auto"}
             >
-              <Comment
-                avatar="https://bit.ly/dan-abramov"
-                userName="Dan Abrahmov"
-                createdAt="10 days ago"
-                commentMsg="Nice Picture"
-              />
-              <Comment
-                avatar="https://bit.ly/kent-c-dodds"
-                userName="Kent Dodds"
-                createdAt="10 days ago"
-                commentMsg="Nice Picture"
-              />
-              <Comment
-                avatar="https://bit.ly/ryan-florence"
-                userName="Ryan Florence"
-                createdAt="10 days ago"
-                commentMsg="Nice Picture"
-              />
+              {/* captions */}
+              {post.caption && <Caption post={post} />}
+
+              {/* comments */}
+              {post.comments.map((comment, i) => (
+                <Comment comment={comment} key={i} />
+              ))}
             </Flex>
             <Divider orientation="horizontal" my={1} />
             {/* footer */}
@@ -123,7 +114,7 @@ const PostViewModal = ({
               mx={2}
               pt={"auto"}
             >
-              <PostFooter isProfilePage={true} />
+              <PostFooter isProfilePage={true} post={post} />
             </Box>
           </VStack>
         </Flex>

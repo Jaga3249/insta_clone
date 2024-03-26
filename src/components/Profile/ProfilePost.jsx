@@ -27,8 +27,7 @@ import useAuthStore from "../../store/AuthStore";
 import DeletePostModal from "../../Modals/DeletePostModal";
 import PostViewModal from "../../Modals/PostViewModal";
 
-const ProfilePost = ({ posts }) => {
-  // console.log(posts);
+const ProfilePost = ({ post }) => {
   const [postToBeDelete, setPostToBeDelete] = useState(null);
   const { userProfile } = UserProfileStore();
   const [overlay, setOverlay] = useState(<OverlayOne />);
@@ -36,8 +35,6 @@ const ProfilePost = ({ posts }) => {
   const { isOpen, onOpen, onClose } = useDisclosure(true);
 
   const [selectedItem, setSelectedItem] = useState("");
-
-  // console.log("userProfile", userProfile);
 
   return (
     <>
@@ -74,17 +71,17 @@ const ProfilePost = ({ posts }) => {
             <Box>
               <AiFillHeart size={25} />
             </Box>
-            <Text fontSize={"15px"}>{posts.likes.length}</Text>
+            <Text fontSize={"15px"}>{post.likes.length}</Text>
           </Flex>
           <Flex alignItems={"center"} justifyContent={"center"} gap={2}>
             <Box>
               <FaComment size={25} />
             </Box>
-            <Text fontSize={"15px"}>{posts.comments.length}</Text>
+            <Text fontSize={"15px"}>{post.comments.length}</Text>
           </Flex>
         </Flex>
         <Image
-          src={posts.imageUrl}
+          src={post.imageUrl}
           alt="Profile Photo"
           w={"100%"}
           h={"100%"}
@@ -97,7 +94,7 @@ const ProfilePost = ({ posts }) => {
         <PostViewModal
           isOpen={isOpen}
           onClose={onClose}
-          posts={posts}
+          post={post}
           onOpen={onOpen}
           setSelectedItem={setSelectedItem}
           setOverlay={setOverlay}

@@ -15,7 +15,7 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 const UseCreatePost = () => {
   const [loading, setLoading] = useState(false);
-  const { createPost, post } = usePostStore();
+  const { createPost } = usePostStore();
   const { user } = useAuthStore();
   const { addPost } = UserProfileStore();
 
@@ -38,7 +38,7 @@ const UseCreatePost = () => {
     };
     try {
       setLoading(true);
-      // cerate posts collection
+      // create posts collection
       const postDocRef = await addDoc(collection(firestore, "posts"), newPost);
 
       // // get the login user document

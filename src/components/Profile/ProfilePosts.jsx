@@ -2,14 +2,10 @@ import { Box, Flex, Grid, Skeleton, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 
 import ProfilePost from "./ProfilePost";
-
 import UseGetPosts from "../../Hooks/UseGetPosts";
-import { UserProfileStore } from "../../store/UserProfileStore";
-
 const ProfilePosts = () => {
-  const { isloading, post } = UseGetPosts();
-
-  const nopostFound = !isloading && post.length === 0;
+  const { isloading, posts } = UseGetPosts();
+  const nopostFound = !isloading && posts.length === 0;
   if (nopostFound) return <NoPostFound />;
 
   return (
@@ -19,16 +15,15 @@ const ProfilePosts = () => {
       columnGap={1}
       cursor={"pointer"}
     >
-      {isloading &&
-        post.map((_, index) => (
-          <VStack key={index} w={"full"}>
-            <Skeleton w={"full"}>
-              <Box h={"300px"}>content wrapped</Box>
-            </Skeleton>
-          </VStack>
-        ))}
-      {!isloading &&
-        post.map((item, i) => <ProfilePost posts={item} key={i} />)}
+      {isloading
+        ? posts.map((_, index) => (
+            <VStack key={index} w={"full"}>
+              <Skeleton w={"full"}>
+                <Box h={"300px"}>content wrapped</Box>
+              </Skeleton>
+            </VStack>
+          ))
+        : posts.map((item, i) => <ProfilePost post={item} key={i} />)}
     </Grid>
   );
 };

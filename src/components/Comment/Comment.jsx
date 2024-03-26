@@ -1,16 +1,29 @@
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
+import UseGetUserProfileById from "../../Hooks/UseGetUserProfileById";
 
-const Comment = ({ avatar, userName, createdAt, commentMsg }) => {
+import { Link } from "react-router-dom";
+import { timeAgo } from "../../utils/TimeAgo";
+import { BeatLoader } from "react-spinners";
+
+const Comment = ({ comment }) => {
+  const { userProfile, loading } = UseGetUserProfileById(comment.createdBy);
+
+  // if (loading) return <CommentSkeletion loading={isLoading} />;
+
   return (
     <Flex w={"full"} alignItems={"center"} gap={3} mb={2} px={2}>
-      <Avatar src={avatar} />
+      <Link to={`/${userProfile?.username}`}>
+        <Avatar src={userProfile?.profilePicUrl} width={8} height={8} />
+      </Link>
       <Flex flexDirection={"column"} gap={0}>
-        <Flex gap={2}>
-          <Text as={"span"}>{userName},</Text>
-          <Text color={"gray.400"}>{commentMsg}</Text>
+        <Flex gap={3}>
+          <Link to={`/${userProfile?.username}`}>
+            <Text as={"span"}>{userProfile?.username}</Text>
+          </Link>
+          <Text color={"gray.400"}>{comment?.comment}</Text>
         </Flex>
-        <Box color={"whiteAlpha.400"}>{createdAt}</Box>
+        <Text>{timeAgo(comment.createdAt)}</Text>
       </Flex>
     </Flex>
   );

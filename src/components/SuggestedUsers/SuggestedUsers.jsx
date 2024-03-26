@@ -16,10 +16,11 @@ import { BiSolidHandDown } from "react-icons/bi";
 const SuggestedUsers = () => {
   const { loading, suggestedUsers } = UseGetSuggestedUsers();
   if (loading) return null;
-  // console.log("suggestedUsers", suggestedUsers);
+
   return (
     <>
       <VStack>
+        {/* suggestedUsre header */}
         <SuggestedHeader />
         <Flex
           alignItems={"center"}

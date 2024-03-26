@@ -77,8 +77,8 @@ const UseFollowUser = (userId) => {
         setIsFollowing(true);
       }
     } catch (error) {
-      console.log(error);
-      console.log("code here");
+      console.log(error.message);
+
       toast.error("Something Went Wrong");
     } finally {
       setIsUpdating(false);

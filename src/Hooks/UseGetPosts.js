@@ -8,7 +8,7 @@ import { firestore } from "../firebase/fireBase";
 const UseGetPosts = () => {
   const [isloading, setIsLoading] = useState(false);
   const { userProfile } = UserProfileStore();
-  const { post, setPost } = usePostStore();
+  const { posts, setPosts } = usePostStore();
   const GetPosts = async () => {
     setIsLoading(true);
     if (!userProfile) {
@@ -27,7 +27,7 @@ const UseGetPosts = () => {
 
       posts.sort((a, b) => b.createdAt - a.createdAt);
 
-      setPost(posts);
+      setPosts(posts);
     } catch (error) {
       console.log(error.message);
       toast.info("Something Went Wrong");
@@ -37,8 +37,8 @@ const UseGetPosts = () => {
   };
   useEffect(() => {
     GetPosts();
-  }, [setPost, userProfile]);
+  }, [setPosts, userProfile]);
 
-  return { isloading, post };
+  return { isloading, posts };
 };
 export default UseGetPosts;
