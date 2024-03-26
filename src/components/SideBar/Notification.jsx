@@ -1,6 +1,6 @@
 import { Box, Flex, Tooltip } from "@chakra-ui/react";
 import { Link, Link as RouterLink } from "react-router-dom";
-import { NotificationsLogo } from "../../Assets/icons/constants";
+import { NotificationsLogo } from "../../../public/Assets/icons/constants";
 
 const Notification = () => {
   return (

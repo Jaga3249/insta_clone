@@ -1,19 +1,15 @@
 import { Box, Button, Flex, Link, Skeleton, Stack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useLocation, useParams } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
 
 import {
-  CreatePostLogo,
   InstagramLogo,
   InstagramMobileLogo,
-  NotificationsLogo,
-  SearchLogo,
-} from "../../Assets/icons/constants";
+} from "../../../public/Assets/icons/constants";
 import { Tooltip } from "@chakra-ui/react";
-import { RxAvatar } from "react-icons/rx";
+
 import { BiLogOutCircle } from "react-icons/bi";
-import UseLogOut from "../../Hooks/UseLogOut";
+import UseLogOut from "../../Hooks/useLogout";
 import SideBarItems from "./SideBarItems";
 
 const SideBar = () => {

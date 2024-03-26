@@ -7,7 +7,6 @@ import {
   InputRightElement,
   VStack,
 } from "@chakra-ui/react";
-import UseSignupWithEmailAndPassword from "../../Hooks/UseSignUpWithEmailAndPassword";
 
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 

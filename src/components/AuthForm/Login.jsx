@@ -17,8 +17,8 @@ import {
 import React, { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-import UseSignInWithEmailAndPassword from "../../Hooks/UseSignInWithEmailAndPassword";
 import UseForgotPassword from "../../Hooks/UseForgotPassword";
+import UseSignInWithEmailAndPassword from "../../Hooks/useSignInWithEmailAndPassword";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -28,7 +28,6 @@ const Login = () => {
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loginData, setLoginData] = useState(initialState);
-
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);

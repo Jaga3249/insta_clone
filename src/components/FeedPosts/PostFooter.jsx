@@ -14,7 +14,7 @@ import {
   CommentLogo,
   NotificationsLogo,
   UnlikeLogo,
-} from "../../Assets/icons/constants";
+} from "../../../public/Assets/icons/constants";
 import UsePostComment from "../../Hooks/UsePostComment";
 import { BeatLoader } from "react-spinners";
 import UseLikePost from "../../Hooks/UseLikePost";

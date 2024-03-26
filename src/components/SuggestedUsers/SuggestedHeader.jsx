@@ -1,7 +1,7 @@
 import { Avatar, Flex, Link, Text } from "@chakra-ui/react";
 import profilepic from "../../../public/profilepic.png";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import UseLogOut from "../../Hooks/UseLogOut";
+import UseLogOut from "../../Hooks/useLogout";
 import { useState } from "react";
 import useAuthStore from "../../store/AuthStore";
 

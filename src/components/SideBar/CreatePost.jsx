@@ -1,5 +1,5 @@
 import { Box, Flex, Tooltip, useDisclosure } from "@chakra-ui/react";
-import { CreatePostLogo } from "../../Assets/icons/constants";
+import { CreatePostLogo } from "../../../public/Assets/icons/constants";
 import { Link, Link as RouterLink } from "react-router-dom";
 import CreatePostModal from "../../Modals/CreatePostModal";
 

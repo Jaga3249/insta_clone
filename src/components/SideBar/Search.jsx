@@ -15,7 +15,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { SearchLogo } from "../../Assets/icons/constants";
+import { SearchLogo } from "../../../public/Assets/icons/constants";
 import { useRef } from "react";
 import UseSearchUser from "../../Hooks/UseSearchUser";
 import { BeatLoader } from "react-spinners";
