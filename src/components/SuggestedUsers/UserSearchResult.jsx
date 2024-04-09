@@ -48,13 +48,6 @@ const UserSearchResult = ({ suggesteduser, setUser }) => {
             spinner={<BeatLoader size={8} color="white" />}
             isLoading={isUpdating}
             size={"sm"}
-            rightIcon={
-              isFollowing ? (
-                <RiUserUnfollowFill />
-              ) : (
-                <BiSolidHandRight size={20} />
-              )
-            }
           >
             {isFollowing ? "unfollow" : "Follow"}
           </Button>

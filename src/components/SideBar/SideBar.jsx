@@ -6,13 +6,17 @@ import {
   InstagramLogo,
   InstagramMobileLogo,
 } from "../../../public/Assets/icons/constants";
+
 import { Tooltip } from "@chakra-ui/react";
 
 import { BiLogOutCircle } from "react-icons/bi";
 import UseLogOut from "../../Hooks/useLogout";
 import SideBarItems from "./SideBarItems";
+import SearchDrawer from "../../drawer/SearchDrawer";
 
 const SideBar = () => {
+  const [isSelected, setIsSelected] = useState(false);
+  const [selectedItemName, setSelectedItemName] = useState("");
   const { pathname } = useLocation();
 
   const [loading, setLoading] = useState(false);
@@ -50,7 +54,11 @@ const SideBar = () => {
       ) : (
         <>
           <Box
+            cursor={"pointer"}
             h={"100vh"}
+            width={`${
+              isSelected && selectedItemName === "Search" ? 20 : "auto"
+            }`}
             position={"sticky"}
             top={0}
             left={0}
@@ -67,7 +75,14 @@ const SideBar = () => {
               <Link
                 to="/"
                 as={RouterLink}
-                display={{ base: "none", md: "block" }}
+                display={{
+                  base: "none",
+                  md: `${
+                    isSelected && selectedItemName === "Search"
+                      ? "none"
+                      : "block"
+                  }`,
+                }}
                 cursor={"pointer"}
                 ml={2}
                 mt={2}
@@ -77,19 +92,37 @@ const SideBar = () => {
               <Link
                 to="/"
                 as={RouterLink}
-                display={{ base: "block", md: "none" }}
+                display={{
+                  base: "block",
+                  md: `${
+                    isSelected && selectedItemName === "Search"
+                      ? "block"
+                      : "none"
+                  }`,
+                }}
                 borderRadius={4}
                 _hover={{ bg: "whiteAlpha.500" }}
-                p={2}
+                py={2}
+                px={2}
               >
                 <InstagramMobileLogo />
               </Link>
               <Box
-                width={{ base: 10, sm: "100%" }}
+                // display={"flex"}
+                width={{
+                  base: 10,
+                  sm: `${
+                    isSelected && selectedItemName === "Search" ? 10 : "100%"
+                  }`,
+                }}
                 mt={3}
-                // border={"2px solid red"}
               >
-                <SideBarItems />
+                <SideBarItems
+                  setIsSelected={setIsSelected}
+                  isSelected={isSelected}
+                  setSelectedItemName={setSelectedItemName}
+                  selectedItemName={selectedItemName}
+                />
               </Box>
 
               <Tooltip
@@ -102,19 +135,38 @@ const SideBar = () => {
               >
                 <Flex
                   alignItems={"center"}
-                  justifyContent={{ base: "center", md: "start" }}
+                  justifyContent={{
+                    base: "center",
+                    md: `${
+                      isSelected && selectedItemName === "Search"
+                        ? "center"
+                        : "start"
+                    }`,
+                  }}
                   gap={2}
                   to={"/auth"}
                   as={RouterLink}
                   _hover={{ bg: "whiteAlpha.400" }}
-                  p={2}
+                  px={1}
+                  py={2}
                   borderRadius={6}
                   mt={"40%"}
+                  ml={"-5px"}
                   w={"100%"}
                   onClick={() => handleLogout(setLoading)}
                 >
                   <BiLogOutCircle size={27} />
-                  <Box as="span" display={{ base: "none", md: "block" }}>
+                  <Box
+                    as="span"
+                    display={{
+                      base: "none",
+                      md: `${
+                        isSelected && selectedItemName === "Search"
+                          ? "none"
+                          : "block"
+                      }`,
+                    }}
+                  >
                     Logout
                   </Box>
                 </Flex>

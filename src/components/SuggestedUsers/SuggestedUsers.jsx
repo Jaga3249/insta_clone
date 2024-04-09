@@ -11,11 +11,9 @@ import SuggestedHeader from "./SuggestedHeader";
 import SuggestedUser from "./SuggestedUser";
 import { Link } from "react-router-dom";
 import UseGetSuggestedUsers from "../../Hooks/UseGetSuggestedUsers";
-import { BiSolidHandDown } from "react-icons/bi";
 
 const SuggestedUsers = () => {
   const { loading, suggestedUsers } = UseGetSuggestedUsers();
-  if (loading) return null;
 
   return (
     <>
@@ -35,9 +33,10 @@ const SuggestedUsers = () => {
           </Text>
         </Flex>
 
-        {suggestedUsers.map((user) => (
-          <SuggestedUser suggesteduser={user} key={user.id} />
-        ))}
+        {suggestedUsers.length != 0 &&
+          suggestedUsers.map((user) => (
+            <SuggestedUser suggesteduser={user} key={user.id} />
+          ))}
 
         <Box
           alignSelf={"start"}

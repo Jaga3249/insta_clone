@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 
 const UseGetSuggestedUsers = () => {
   const { user } = useAuthStore();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [suggestedUsers, setSuggestedUsers] = useState([]);
 
@@ -23,9 +23,9 @@ const UseGetSuggestedUsers = () => {
       const userRef = collection(firestore, "users");
       const q = query(
         userRef,
-        where("uid", "not-in", [user.uid, ...user.following]),
+        where("uid", "not-in", [user.uid]),
         orderBy("uid"),
-        limit(3)
+        limit(5)
       );
       const querySnapshot = await getDocs(q);
 
@@ -43,10 +43,13 @@ const UseGetSuggestedUsers = () => {
     }
   };
   useEffect(() => {
+    // console.log("useeffectcall");
     if (user) {
       getSuggestedUsers();
     }
   }, [user]);
+
+  // console.log("hookLoading...");
   return { loading, suggestedUsers };
 };
 export default UseGetSuggestedUsers;

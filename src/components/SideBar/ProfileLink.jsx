@@ -3,7 +3,7 @@ import { Image } from "@chakra-ui/react";
 import useAuthStore from "../../store/AuthStore";
 import { useNavigate } from "react-router-dom";
 
-const ProfileLink = () => {
+const ProfileLink = ({ isSelected, selectedItemName }) => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
 
@@ -11,7 +11,12 @@ const ProfileLink = () => {
     <>
       <Flex
         alignItems={"center"}
-        justifyContent={{ base: "center", sm: "start" }}
+        justifyContent={{
+          base: "center",
+          sm: `${
+            isSelected && selectedItemName === "Search" ? "center" : "start"
+          }`,
+        }}
         gap={2}
         _hover={{ bg: "whiteAlpha.500" }}
         py={2}
@@ -27,7 +32,16 @@ const ProfileLink = () => {
           h={"30px"}
           borderRadius={"full"}
         />
-        <Box display={{ base: "none", md: "block" }}>Profile</Box>
+        <Box
+          display={{
+            base: "none",
+            md: `${
+              isSelected && selectedItemName === "Search" ? "none" : "block"
+            }`,
+          }}
+        >
+          Profile
+        </Box>
       </Flex>
     </>
   );

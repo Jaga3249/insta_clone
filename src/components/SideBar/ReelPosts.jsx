@@ -1,20 +1,24 @@
-import { Box, Flex, Text, Tooltip } from "@chakra-ui/react";
-
-import { FaHome } from "react-icons/fa";
+import { Flex, Text, Tooltip } from "@chakra-ui/react";
+import { GiThreeLeaves } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 
-const Home = ({ isSelected, selectedItemName }) => {
+const ReelPosts = ({ isSelected, selectedItemName }) => {
   return (
-    <>
+    <div>
       <Tooltip
-        label={"Home"}
+        label="Reels"
         aria-label="A tooltip "
         ml={1}
         display={{ base: "block", md: "none" }}
         placement="right-start"
         hasArrow
       >
-        <NavLink to={"/"}>
+        <NavLink
+          to={"/"}
+          style={({ isActive }) => {
+            return { backgroundColor: isActive ? "red" : "" };
+          }}
+        >
           <Flex
             alignItems={"center"}
             justifyContent={{
@@ -29,8 +33,9 @@ const Home = ({ isSelected, selectedItemName }) => {
             px={1}
             borderRadius={"5px"}
             cursor={"pointer"}
+            // backgroundColor={(isActive) => console.log(isActive)}
           >
-            <FaHome size={24} />
+            <GiThreeLeaves size={24} />
 
             <Text
               display={{
@@ -43,12 +48,12 @@ const Home = ({ isSelected, selectedItemName }) => {
                 }`,
               }}
             >
-              Home
+              Reel
             </Text>
           </Flex>
         </NavLink>
       </Tooltip>
-    </>
+    </div>
   );
 };
-export default Home;
+export default ReelPosts;

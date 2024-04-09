@@ -3,14 +3,19 @@ import { CreatePostLogo } from "../../../public/Assets/icons/constants";
 import { Link, Link as RouterLink } from "react-router-dom";
 import CreatePostModal from "../../Modals/CreatePostModal";
 
-const CreatePost = () => {
+const CreatePost = ({ isSelected, selectedItemName }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <Flex
         alignItems={"center"}
-        justifyContent={{ base: "center", sm: "start" }}
+        justifyContent={{
+          base: "center",
+          sm: `${
+            isSelected && selectedItemName === "Search" ? "center" : "start"
+          }`,
+        }}
         gap={2}
         _hover={{ bg: "whiteAlpha.500" }}
         py={2}
@@ -20,7 +25,16 @@ const CreatePost = () => {
         onClick={onOpen}
       >
         <CreatePostLogo />
-        <Box display={{ base: "none", md: "block" }}>Create</Box>
+        <Box
+          display={{
+            base: "none",
+            md: `${
+              isSelected && selectedItemName === "Search" ? "none" : "block"
+            }`,
+          }}
+        >
+          Create
+        </Box>
       </Flex>
       {isOpen && <CreatePostModal isopen={isOpen} onClose={onClose} />}
     </>

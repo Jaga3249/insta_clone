@@ -16,7 +16,7 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 const UseCreatePost = () => {
   const [loading, setLoading] = useState(false);
   const { createPost } = usePostStore();
-  const { user } = useAuthStore();
+  const { user, setuser } = useAuthStore();
   const { addPost } = UserProfileStore();
 
   const handleCreatePost = async (
@@ -57,6 +57,11 @@ const UseCreatePost = () => {
       newPost.imageUrl = downloadUrl;
       createPost({ ...newPost, id: postDocRef.id });
       addPost({ ...newPost, id: postDocRef.id });
+      setuser({
+        ...user,
+        posts: [...user.posts, postDocRef.id],
+      });
+      localStorage.setItem("user_info", JSON.stringify(user));
 
       toast.success("Post create sucessfully");
       setSelectedFile(null);

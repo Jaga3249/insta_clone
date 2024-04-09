@@ -11,6 +11,7 @@ const UseFollowUser = (userId) => {
   const { userProfile, setUserProfile } = UserProfileStore();
   const [isUpdating, setIsUpdating] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
+
   useEffect(() => {
     if (user) {
       const isFollowing = user.following.includes(userId);
@@ -55,7 +56,6 @@ const UseFollowUser = (userId) => {
         setIsFollowing(false);
       } else {
         // follow
-
         setuser({
           ...user,
           following: [...user.following, userId],

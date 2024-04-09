@@ -14,6 +14,8 @@ import UseGetFeedPosts from "../../Hooks/UseGetFeedPosts";
 const FeedPosts = () => {
   const { posts, loading } = UseGetFeedPosts();
 
+  // console.log("render1");
+
   return (
     <Container maxW="md">
       {loading &&
@@ -46,14 +48,14 @@ const FeedPosts = () => {
             posts.map((post) => <FeedPost post={post} key={post.id} />)}
         </>
       )}
-      {!loading && posts.length === 0 && (
+      {/* {!loading && posts.length === 0 && (
         <>
           <Text fontSize={"md"} color={"red.400"}>
             Dayuum. Looks like you don&apos;t have any friends.
           </Text>
           <Text color={"red.400"}>Stop coding and go make some!!</Text>
         </>
-      )}
+      )} */}
     </Container>
   );
 };

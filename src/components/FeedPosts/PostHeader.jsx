@@ -6,16 +6,20 @@ import {
   SkeletonCircle,
   SkeletonText,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import headerImg from "../../../public/img1.png";
+
 import { Link } from "react-router-dom";
-import UseFollowUser from "../../Hooks/UseFollowUser";
+
 import { timeAgo } from "../../utils/TimeAgo";
+import { BsThreeDots } from "react-icons/bs";
+
+import UserPostModal from "../../Modals/UserPostModal";
 
 const PostHeader = ({ post, creatorProfile }) => {
-  const { handleFollowUser, isFollowing } = UseFollowUser(post?.createdBy);
-  // console.log(post);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex justifyContent={"space-between"} alignItems={"center"}>
       {/* left side */}
@@ -44,21 +48,20 @@ const PostHeader = ({ post, creatorProfile }) => {
       </Flex>
 
       {/* right side */}
-      <Box>
-        <Text
-          style={{
-            fontSize: "17px",
-            fontWeight: "bold",
-            letterSpacing: "0.5px",
-          }}
-          cursor={"pointer"}
-          _hover={{ color: "blue" }}
-          transition={"0.2s ease-in-out"}
-          onClick={handleFollowUser}
-        >
-          {isFollowing ? "UnFollow" : "Follow"}
-        </Text>
+
+      <Box
+        style={{
+          fontSize: "17px",
+          fontWeight: "bold",
+          letterSpacing: "0.5px",
+        }}
+        cursor={"pointer"}
+        onClick={onOpen}
+      >
+        <BsThreeDots size={30} />
       </Box>
+
+      <UserPostModal isOpen={isOpen} onClose={onClose} post={post} />
     </Flex>
   );
 };

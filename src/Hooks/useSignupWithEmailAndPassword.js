@@ -47,6 +47,7 @@ const UseSignupWithEmailAndPassword = () => {
           followers: [],
           following: [],
           posts: [],
+          savePost: [],
           username: signUpDetail.userName,
           createdAt: res?.user?.metadata.creationTime,
         };

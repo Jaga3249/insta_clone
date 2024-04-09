@@ -9,6 +9,8 @@ import {
 } from "@chakra-ui/react";
 
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import UseSignupWithEmailAndPassword from "../../Hooks/useSignupWithEmailAndPassword";
+import { BeatLoader } from "react-spinners";
 
 const SignUp = () => {
   const initialState = {
@@ -59,30 +61,27 @@ const SignUp = () => {
   return (
     <VStack gap={3} width={"100%"}>
       <Input
+        name="email"
+        placeholder="Email"
+        value={signUpDetail.email}
+        onChange={handleSignDetailChange}
+      />
+      <Input
         name="fullName"
-        variant="flushed"
-        placeholder="Enter your fullname"
+        placeholder="Full Name"
         value={signUpDetail.fullName}
         onChange={handleSignDetailChange}
       />
       <Input
         name="userName"
-        variant="flushed"
-        placeholder="Enter your username"
+        placeholder="Username"
         value={signUpDetail.userName}
         onChange={handleSignDetailChange}
       />
-      <Input
-        name="email"
-        variant="flushed"
-        placeholder="Enter your email"
-        value={signUpDetail.email}
-        onChange={handleSignDetailChange}
-      />
+
       <Input
         name="password"
-        variant="flushed"
-        placeholder="Enter your password"
+        placeholder="Password"
         value={signUpDetail.password}
         onChange={handleSignDetailChange}
         type="password"
@@ -91,9 +90,8 @@ const SignUp = () => {
       <InputGroup>
         <Input
           name="confirmPassword"
-          variant="flushed"
           type={showPassword ? "text" : "password"}
-          placeholder="Enter your confirm password"
+          placeholder="Confirm password"
           value={signUpDetail.confirmPassword}
           onChange={handleSignDetailChange}
           onKeyDown={(e) => handleKeyPress(e)}
@@ -143,6 +141,7 @@ const SignUp = () => {
         size={"md"}
         isLoading={loading}
         isDisabled={signUpDetail.confirmPassword !== signUpDetail.password}
+        spinner={<BeatLoader size={8} color="white" />}
       >
         SignUp
       </Button>

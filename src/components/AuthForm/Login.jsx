@@ -62,7 +62,6 @@ const Login = () => {
   return (
     <>
       <Input
-        variant="flushed"
         placeholder="Email"
         name="email"
         type="text"
@@ -73,7 +72,6 @@ const Login = () => {
       <InputGroup>
         <Input
           name="password"
-          variant="flushed"
           placeholder="Password"
           type={showPassword ? "text" : "password"}
           fontSize={14}

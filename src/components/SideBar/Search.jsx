@@ -1,19 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 
 import { SearchLogo } from "../../../public/Assets/icons/constants";
 import { useRef } from "react";
@@ -22,9 +7,15 @@ import { BeatLoader } from "react-spinners";
 import SuggestedUser from "../SuggestedUsers/SuggestedUser";
 import UserSearchResult from "../SuggestedUsers/UserSearchResult";
 import { UserProfileStore } from "../../store/UserProfileStore";
+import SearchDrawer from "../../drawer/SearchDrawer";
 // import UserSearchResult from "../SuggestedUsers/userSearchResult";
 
-const Search = () => {
+const Search = ({
+  setIsSelected,
+  setSelectedItemName,
+  isSelected,
+  selectedItemName,
+}) => {
   const { loading, getUserProfile, user, setUser } = UseSearchUser();
   const { userProfile, setUserProfile } = UserProfileStore();
 
@@ -47,64 +38,53 @@ const Search = () => {
     onClose();
   };
 
+  //
+  const handleChange = () => {
+    setIsSelected(!isSelected);
+    // setSelectedItemName("Search");
+  };
+
+  // console.log(isSelected);
+  // console.log(isOpen);
+
   return (
     <>
       <Flex
         alignItems={"center"}
-        justifyContent={{ base: "center", sm: "start" }}
+        justifyContent={{
+          base: "center",
+          sm: `${
+            isSelected && selectedItemName === "Search" ? "center" : "start"
+          }`,
+        }}
         gap={2}
         _hover={{ bg: "whiteAlpha.500" }}
         py={2}
         px={1}
         borderRadius={"5px"}
+        border={`${
+          isSelected && selectedItemName === "Search" && "1px solid white"
+        }`}
         cursor={"pointer"}
-        onClick={onOpen}
+        // onClick={onOpen}
+        onClick={handleChange}
       >
         <SearchLogo />
-        <Box display={{ base: "none", md: "block" }}>Search</Box>
+        <Box
+          display={{
+            base: "none",
+            md: `${
+              isSelected && selectedItemName === "Search" ? "none" : "block"
+            }`,
+          }}
+        >
+          Search
+        </Box>
       </Flex>
 
-      {/* search modal content */}
+      {/* search drawer */}
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        {/* <ModalOverlay /> */}
-        <ModalContent>
-          <ModalHeader mx={"auto"}>Search User</ModalHeader>
-          <ModalCloseButton onClick={handleModalClose} />
-          <ModalBody>
-            <form onSubmit={handleSearchUser}>
-              <FormLabel>UserName</FormLabel>
-              <InputGroup size="md">
-                <Input
-                  pr="4.5rem"
-                  type="text"
-                  placeholder="Enter username"
-                  ref={searchRef}
-                  onKeyDown={handleKeyPress}
-                />
-                <InputRightElement width="4.5rem">
-                  <Button
-                    colorScheme="messenger"
-                    h="2.12rem"
-                    size="sm"
-                    spinner={<BeatLoader size={8} color="white" />}
-                    isLoading={loading}
-                    type="submit"
-                  >
-                    Search
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </form>
-            {userProfile && (
-              <UserSearchResult
-                suggesteduser={userProfile}
-                setUser={setUserProfile}
-              />
-            )}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <SearchDrawer isOpen={isSelected} onClose={onClose} />
     </>
   );
 };

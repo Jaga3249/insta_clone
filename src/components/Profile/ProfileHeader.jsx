@@ -63,7 +63,7 @@ const ProfileHeader = () => {
             alignItems={"center"}
             gap={4}
           >
-            <Text fontSize={20}>{userProfile.fullName}</Text>
+            <Text fontSize={20}>{userProfile.username}</Text>
 
             {visitOwnProfileAndAuth && (
               <Button
@@ -95,7 +95,7 @@ const ProfileHeader = () => {
             w={"full"}
             alignItems={"center"}
             justifyContent={"flex-start"}
-            gap={2}
+            gap={4}
           >
             <Text as="span" fontSize={16} fontWeight={"bold"} color={"white"}>
               {userProfile?.posts?.length}
@@ -139,9 +139,12 @@ const ProfileHeader = () => {
             </Text>
           </Flex>
 
-          <Text fontSize={16} width={"100%"}>
-            {userProfile.bio}
-          </Text>
+          <Flex>
+            <Text fontSize={16}>{userProfile.fullName}</Text>
+            <Text fontSize={16} width={"100%"}>
+              {userProfile.bio}
+            </Text>
+          </Flex>
         </VStack>
       </Flex>
       {isOpen && <EditProfile isopen={isOpen} onClose={onClose} />}

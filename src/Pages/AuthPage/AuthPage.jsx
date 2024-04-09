@@ -14,12 +14,7 @@ const AuthPage = () => {
             <Image src={leftImg} alt="" h={550} />
           </Box>
           {/* right hand-side */}
-          <VStack
-            spacing={2}
-            alignItems={"center"}
-            justifyContent={"center"}
-            // width={"0%"}
-          >
+          <VStack spacing={2} alignItems={"center"} justifyContent={"center"}>
             <AuthForm />
           </VStack>
         </Flex>

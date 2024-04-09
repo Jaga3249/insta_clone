@@ -30,6 +30,7 @@ const UseLoginWithGoogle = () => {
           followers: [],
           following: [],
           posts: [],
+          savePost: [],
           loginTime: res?.user?.metadata.creationTime,
         };
         let data;
@@ -50,12 +51,10 @@ const UseLoginWithGoogle = () => {
           await setDoc(doc(firestore, "users", res.user.uid), userDoc);
           localStorage.setItem("user_info", JSON.stringify(userDoc));
           login(userDoc);
-          setLoading("false");
           toast.success("user login sucessfully");
         }
       }
     } catch (error) {
-      setLoading(false);
       console.log(error.message);
       toast.info("Something Went Wrong ");
     } finally {
