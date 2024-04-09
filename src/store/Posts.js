@@ -2,6 +2,7 @@ import { create } from "zustand";
 const usePostStore = create((Set) => ({
   posts: [],
   createPost: (post) => Set((state) => ({ posts: [...state.posts, post] })),
+
   deletePost: (id) =>
     Set((state) => ({ posts: state.posts.filter((post) => post.id !== id) })),
   setPosts: (posts) => Set({ posts }),

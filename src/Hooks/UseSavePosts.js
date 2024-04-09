@@ -2,43 +2,77 @@ import { useEffect, useState } from "react";
 import useAuthStore from "../store/AuthStore";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { firestore } from "../firebase/fireBase";
-import { toast } from "react-toastify";
+import { UserProfileStore } from "../store/UserProfileStore";
 
 const UseSavePosts = (post) => {
+  const [loading, setLoading] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const { user, setuser } = useAuthStore();
-  const [loading, setLoading] = useState(true);
-  const [isAvailable, setIsAvailable] = useState(false);
+  const { userProfile, setUserProfile } = UserProfileStore();
+
   useEffect(() => {
     if (user) {
-      const alreadySave = user.savePost.includes(post.id);
-      setIsAvailable(alreadySave);
+      const alreadyAvailable = user?.savePost?.includes(post.id);
+      setIsSaved(alreadyAvailable);
     }
-  }, [post.id, user]);
-  const handlesavePost = async () => {
+  }, [user, post.id]);
+
+  const handleSavePost = async () => {
     setLoading(true);
     try {
-      const userRef = doc(firestore, "users", user.uid);
-
-      //update doc
-      const updatedDoc = {
-        ...user,
-        savePost: isAvailable ? arrayRemove(post.id) : arrayUnion(post.id),
-      };
-      //update user document
-      await updateDoc(userRef, updatedDoc);
-      localStorage.setItem("user_info", JSON.stringify(updateDoc));
-      setuser(updatedDoc);
-      isAvailable
-        ? toast.info("Save post removed from user")
-        : toast.info("Post save sucessfully");
+      // login user reference
+      const loginUserRef = doc(firestore, "users", user.uid);
+      await updateDoc(loginUserRef, {
+        savePost: isSaved ? arrayRemove(post?.id) : arrayUnion(post?.id),
+      });
+      if (isSaved) {
+        //user
+        setuser({
+          ...user,
+          savePost: user.savePost.filter((postid) => postid != post?.id),
+        });
+        //update userProfile
+        setUserProfile({
+          ...userProfile,
+          savePost: userProfile.savePost.filter((postid) => postid != post?.id),
+        });
+        console.log("userin", user);
+        localStorage.setItem(
+          "user_info",
+          JSON.stringify({
+            ...user,
+            savePost: user.savePost.filter((postid) => postid != post?.id),
+          })
+        );
+        setIsSaved(false);
+      } else {
+        //user
+        setuser({
+          ...user,
+          savePost: [...user?.savePost, post?.id],
+        });
+        // update userProfile
+        setUserProfile({
+          ...userProfile,
+          savePost: [...userProfile.savePost, post.id],
+        });
+        // console.log("userin", user);
+        localStorage.setItem(
+          "user_info",
+          JSON.stringify({
+            ...user,
+            savePost: [...user?.savePost, post?.id],
+          })
+        );
+        setIsSaved(true);
+      }
     } catch (error) {
       console.log(error.message);
-      toast.info("Something Went Wrong");
     } finally {
       setLoading(false);
     }
   };
 
-  return { handlesavePost, loading, isAvailable };
+  return { handleSavePost, loading, isSaved };
 };
 export default UseSavePosts;

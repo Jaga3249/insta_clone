@@ -13,13 +13,11 @@ import UseFollowUser from "../Hooks/UseFollowUser";
 import { BeatLoader } from "react-spinners";
 import UseSavePosts from "../Hooks/UseSavePosts";
 
-const UserPostModal = ({ isOpen, onClose, post }) => {
-  const { handlesavePost, loading, isAvailable } = UseSavePosts(post);
+const UserPostModal = ({ isOpen, onClose, post, setOpen }) => {
+  const { handleSavePost, loading, isSaved } = UseSavePosts(post);
   const { handleFollowUser, isUpdating, isFollowing } = UseFollowUser(
     post?.createdBy
   );
-
-  // console.log("post", post);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"xs"}>
@@ -42,11 +40,27 @@ const UserPostModal = ({ isOpen, onClose, post }) => {
             </Box>
 
             <Divider />
-            <Box mx="auto" onClick={handlesavePost}>
-              Save Post
+            <Box mx="auto" onClick={handleSavePost}>
+              {isSaved ? (
+                <Box>
+                  {loading ? (
+                    <BeatLoader size={8} color="white" />
+                  ) : (
+                    "Remove Save Posts"
+                  )}
+                </Box>
+              ) : (
+                <Box>
+                  {loading ? (
+                    <BeatLoader size={8} color="white" />
+                  ) : (
+                    " Save Post"
+                  )}
+                </Box>
+              )}
             </Box>
             <Divider />
-            <Box mx="auto" onClick={onClose}>
+            <Box mx="auto" onClick={() => setOpen(false)}>
               Cancel
             </Box>
           </VStack>

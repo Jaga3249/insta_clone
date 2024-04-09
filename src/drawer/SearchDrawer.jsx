@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 
 const SearchDrawer = ({ isOpen, onClose }) => {
-  console.log(isOpen);
   return (
     <>
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>

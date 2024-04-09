@@ -8,7 +8,7 @@ const UseSearchUser = () => {
   const [loading, setLoading] = useState(false);
   // const [user, setUser] = useState(null);
   const { userProfile, setUserProfile } = UserProfileStore();
-  const loginuser = JSON.parse(localStorage.getItem("user_info"));
+  // const loginuser = JSON.parse(localStorage.getItem("user_info"));
 
   const getUserProfile = async (username) => {
     setLoading(true);

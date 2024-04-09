@@ -6,7 +6,7 @@ import { firestore } from "../firebase/fireBase";
 
 const UseLikePost = (post) => {
   const { user } = useAuthStore();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [likes, setLikes] = useState(post?.likes?.length);
   const [isLiked, setIsLiked] = useState(post?.likes?.includes(user.uid));
 

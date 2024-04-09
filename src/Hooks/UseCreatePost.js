@@ -15,9 +15,9 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 const UseCreatePost = () => {
   const [loading, setLoading] = useState(false);
-  const { createPost } = usePostStore();
+  const { createPost, posts } = usePostStore();
   const { user, setuser } = useAuthStore();
-  const { addPost } = UserProfileStore();
+  const { addPost, userProfile } = UserProfileStore();
 
   const handleCreatePost = async (
     selectedFile,
@@ -27,6 +27,9 @@ const UseCreatePost = () => {
   ) => {
     if (!selectedFile) {
       toast.info("Please select an image");
+      return;
+    } else if (!userProfile) {
+      toast.info("User profile is null");
       return;
     }
     const newPost = {
@@ -45,23 +48,31 @@ const UseCreatePost = () => {
       const userdocRef = doc(firestore, "users", user.uid);
       // update login user doc
       await updateDoc(userdocRef, {
-        posts: arrayUnion(postDocRef.id),
+        posts: arrayUnion(postDocRef?.id),
       });
+
       // // image ref
-      const imageRef = ref(storage, `posts/${postDocRef.id}`);
+      const imageRef = ref(storage, `posts/${postDocRef?.id}`);
       await uploadString(imageRef, selectedFile, "data_url");
 
       const downloadUrl = await getDownloadURL(imageRef);
+
       // update post collection
       await updateDoc(postDocRef, { imageUrl: downloadUrl });
       newPost.imageUrl = downloadUrl;
-      createPost({ ...newPost, id: postDocRef.id });
-      addPost({ ...newPost, id: postDocRef.id });
+
       setuser({
         ...user,
-        posts: [...user.posts, postDocRef.id],
+        posts: [...user.posts, postDocRef?.id],
       });
-      localStorage.setItem("user_info", JSON.stringify(user));
+
+      const updatedUser = {
+        ...user,
+        posts: [...user.posts, postDocRef?.id],
+      };
+      localStorage.setItem("user_info", JSON.stringify(updatedUser));
+      createPost({ ...newPost, id: postDocRef?.id });
+      addPost({ id: postDocRef?.id });
 
       toast.success("Post create sucessfully");
       setSelectedFile(null);

@@ -111,7 +111,7 @@ const ProfileHeader = () => {
               </Text>
             </Text>
             <Text fontWeight={"bold"} as="span" fontSize={16}>
-              {userProfile.followers.length}
+              {userProfile?.followers?.length}
               <Text
                 ml={2}
                 as={"span"}

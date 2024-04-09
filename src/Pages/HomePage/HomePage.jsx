@@ -4,6 +4,7 @@ import FeedPosts from "../../components/FeedPosts/FeedPosts";
 import SuggestedUsers from "../../components/SuggestedUsers/SuggestedUsers";
 
 const HomePage = () => {
+  console.log();
   return (
     <Container maxW={"container.lg"} pt={10}>
       <Flex gap={20} justifyContent={"center"}>

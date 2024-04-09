@@ -3,11 +3,13 @@ import { auth } from "../firebase/fireBase";
 import { toast } from "react-toastify";
 
 import useAuthStore from "../store/AuthStore";
+import { useState } from "react";
 
 const UseLogOut = () => {
+  const [loading, setLoading] = useState(false);
   const { clearStorage } = useAuthStore();
 
-  const handleLogout = async (setLoading) => {
+  const handleLogout = async () => {
     try {
       setLoading(true);
       const res = await signOut(auth);

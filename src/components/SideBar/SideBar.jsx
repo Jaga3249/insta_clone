@@ -19,7 +19,6 @@ const SideBar = () => {
   const [selectedItemName, setSelectedItemName] = useState("");
   const { pathname } = useLocation();
 
-  const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const { handleLogout } = UseLogOut();
@@ -36,20 +35,20 @@ const SideBar = () => {
     <>
       {renderSkeletonPage ? (
         <Stack
-          gap={8}
+          gap={6}
           h={"100vh"}
           py={10}
           px={5}
           borderRight={"1px solid"}
           borderColor={"whiteAlpha.500"}
         >
-          <Skeleton height="30px" />
-          <Skeleton height="30px" />
-          <Skeleton height="30px" />
-          <Skeleton height="30px" />
-          <Skeleton height="30px" />
-          <Skeleton height="30px" />
-          <Skeleton height="30px" mt={"40%"} />
+          <Skeleton height="18px" />
+          <Skeleton height="18px" />
+          <Skeleton height="18px" />
+          <Skeleton height="18px" />
+          <Skeleton height="18px" />
+          <Skeleton height="18px" />
+          <Skeleton height="18px" mt={"40%"} />
         </Stack>
       ) : (
         <>
@@ -108,7 +107,6 @@ const SideBar = () => {
                 <InstagramMobileLogo />
               </Link>
               <Box
-                // display={"flex"}
                 width={{
                   base: 10,
                   sm: `${
@@ -153,7 +151,7 @@ const SideBar = () => {
                   mt={"40%"}
                   ml={"-5px"}
                   w={"100%"}
-                  onClick={() => handleLogout(setLoading)}
+                  onClick={handleLogout}
                 >
                   <BiLogOutCircle size={27} />
                   <Box

@@ -10,7 +10,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import { FcGallery } from "react-icons/fc";
@@ -25,6 +24,8 @@ const CreatePostModal = ({ isopen, onClose }) => {
   const fileRef = useRef(null);
   const { selectedFile, setSelectedFile, handleChangeImg } = UsePreviewImg();
   const { handleCreatePost, loading } = UseCreatePost();
+
+  // console.log("selectedFile", selectedFile);
 
   return (
     <>

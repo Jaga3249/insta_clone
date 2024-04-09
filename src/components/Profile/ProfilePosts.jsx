@@ -10,7 +10,7 @@ const ProfilePosts = () => {
 
   return (
     <Grid
-      templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(3, 1fr)" }}
+      gridTemplateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(3, 1fr)" }}
       gap={1}
       columnGap={1}
       cursor={"pointer"}

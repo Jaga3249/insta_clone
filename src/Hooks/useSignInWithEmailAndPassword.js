@@ -3,8 +3,10 @@ import { auth, firestore } from "../firebase/fireBase";
 import { toast } from "react-toastify";
 import { collection, getDocs, query, setDoc, where } from "firebase/firestore";
 import useAuthStore from "../store/AuthStore";
+import { UserProfileStore } from "../store/UserProfileStore";
 const UseSignInWithEmailAndPassword = () => {
   const { login } = useAuthStore();
+  const { setUserProfile } = UserProfileStore();
 
   const userLogin = async (
     loginData,
@@ -38,6 +40,7 @@ const UseSignInWithEmailAndPassword = () => {
         );
         localStorage.setItem("user_info", JSON.stringify(data));
         login(data);
+        setUserProfile(data);
         setLoginData(initialState);
         setLoading(false);
         toast.success("user login sucessfully");

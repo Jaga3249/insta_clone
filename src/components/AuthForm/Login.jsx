@@ -20,6 +20,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import UseForgotPassword from "../../Hooks/UseForgotPassword";
 import UseSignInWithEmailAndPassword from "../../Hooks/useSignInWithEmailAndPassword";
 import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
 
 const Login = () => {
   const initialState = {
@@ -109,6 +110,7 @@ const Login = () => {
         size="md"
         width={"full"}
         isLoading={loading}
+        spinner={<BeatLoader size={8} color="white" />}
         onClick={() =>
           userLogin(loginData, setLoginData, setLoading, initialState)
         }

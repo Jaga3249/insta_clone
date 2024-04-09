@@ -1,18 +1,25 @@
 import { Box, Flex, Spinner } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import SideBar from "../../components/SideBar/SideBar";
 import { auth } from "../../firebase/fireBase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import NavBar from "../../components/Navbar/NavBar";
+import useAuthStore from "../../store/AuthStore";
 
 const PageLayout = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const { pathname } = useLocation();
-  const [user, loading, error] = useAuthState(auth);
+  const { user } = useAuthStore();
   const rendersidebar = pathname !== "/auth" && user;
-  const canRenderNavbar = !user && !loading && pathname !== "/auth";
-  const checkingUserIsauth = !user && loading;
-  if (checkingUserIsauth) {
+  const canRenderNavbar = !user && pathname !== "/auth";
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+  if (loading) {
     return <PageLayoutSpinner />;
   }
 

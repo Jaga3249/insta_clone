@@ -10,7 +10,9 @@ import {
   where,
 } from "firebase/firestore";
 import useAuthStore from "../store/AuthStore";
+import { UserProfileStore } from "../store/UserProfileStore";
 const UseLoginWithGoogle = () => {
+  const { setUserProfile } = UserProfileStore();
   const provider = new GoogleAuthProvider();
   const { login } = useAuthStore();
 
@@ -45,12 +47,15 @@ const UseLoginWithGoogle = () => {
           setLoading(false);
           localStorage.setItem("user_info", JSON.stringify(userDoc));
           login(userDoc);
+          setUserProfile(userDoc);
+
           toast.success("user loggin sucessfully");
           return;
         } else {
           await setDoc(doc(firestore, "users", res.user.uid), userDoc);
           localStorage.setItem("user_info", JSON.stringify(userDoc));
           login(userDoc);
+          setUserProfile(userDoc);
           toast.success("user login sucessfully");
         }
       }

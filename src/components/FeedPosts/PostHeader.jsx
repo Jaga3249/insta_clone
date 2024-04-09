@@ -16,9 +16,13 @@ import { timeAgo } from "../../utils/TimeAgo";
 import { BsThreeDots } from "react-icons/bs";
 
 import UserPostModal from "../../Modals/UserPostModal";
+import UseSavePosts from "../../Hooks/UseSavePosts";
+import { UserProfileStore } from "../../store/UserProfileStore";
 
 const PostHeader = ({ post, creatorProfile }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [open, setOpen] = useState(false);
+
+  const { onClose } = useDisclosure();
 
   return (
     <Flex justifyContent={"space-between"} alignItems={"center"}>
@@ -48,7 +52,6 @@ const PostHeader = ({ post, creatorProfile }) => {
       </Flex>
 
       {/* right side */}
-
       <Box
         style={{
           fontSize: "17px",
@@ -56,12 +59,17 @@ const PostHeader = ({ post, creatorProfile }) => {
           letterSpacing: "0.5px",
         }}
         cursor={"pointer"}
-        onClick={onOpen}
+        onClick={() => setOpen(true)}
       >
         <BsThreeDots size={30} />
       </Box>
 
-      <UserPostModal isOpen={isOpen} onClose={onClose} post={post} />
+      <UserPostModal
+        isOpen={open}
+        onClose={onClose}
+        post={post}
+        setOpen={setOpen}
+      />
     </Flex>
   );
 };

@@ -8,6 +8,7 @@ import {
   InputRightElement,
   Text,
   useDisclosure,
+  Tooltip,
 } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import {
@@ -15,12 +16,17 @@ import {
   NotificationsLogo,
   UnlikeLogo,
 } from "../../../public/Assets/icons/constants";
+
 import UsePostComment from "../../Hooks/UsePostComment";
 import { BeatLoader } from "react-spinners";
 import UseLikePost from "../../Hooks/UseLikePost";
 import CommentModal from "../../Modals/CommentModal";
+import { TfiSave, TfiSharethis } from "react-icons/tfi";
+import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
+import UseSavePosts from "../../Hooks/UseSavePosts";
 
 const PostFooter = ({ post, creatorProfile, isProfilePage }) => {
+  const { handleSavePost, isSaved } = UseSavePosts(post);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handlePostComment, isCommenting } = UsePostComment();
   const { likes, isLiked, handleLike } = UseLikePost(post);
@@ -44,13 +50,43 @@ const PostFooter = ({ post, creatorProfile, isProfilePage }) => {
   return (
     <>
       <Box mb={4} display={"flex"} flexDirection={"column"} gap={1}>
-        <Flex alignItems={"center"} gap={4} cursor={"pointer"} my={1}>
-          <Box onClick={handleLike} fontSize={50}>
-            {!isLiked ? <NotificationsLogo /> : <UnlikeLogo />}
-          </Box>
-          <Box onClick={() => commentRef.current.focus()}>
-            <CommentLogo />
-          </Box>
+        <Flex
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          gap={4}
+          cursor={"pointer"}
+          my={1}
+        >
+          <Flex gap={4}>
+            <Box onClick={handleLike} fontSize={50}>
+              {!isLiked ? <NotificationsLogo /> : <UnlikeLogo />}
+            </Box>
+            <Box onClick={() => commentRef.current.focus()}>
+              <CommentLogo />
+            </Box>
+
+            <Box>
+              <TfiSharethis size={25} />
+            </Box>
+          </Flex>
+
+          <Tooltip
+            label={`${isSaved ? "Remove" : "Save"}`}
+            aria-label="A tooltip "
+            ml={1}
+            placement="right-start"
+            hasArrow
+          >
+            <Box>
+              <TfiSave
+                size={25}
+                onClick={handleSavePost}
+                style={{
+                  color: `${isSaved ? "gray" : "white"}`,
+                }}
+              />
+            </Box>
+          </Tooltip>
         </Flex>
         <Text fontSize={"bold"}>{likes} Likes</Text>
         {!isProfilePage && (

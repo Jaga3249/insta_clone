@@ -6,7 +6,7 @@ const UserProfileStore = create((Set) => ({
     Set((state) => ({
       userProfile: {
         ...state.userProfile,
-        posts: [post.id, ...state.userProfile.posts],
+        posts: [...state.userProfile.posts, post.id],
       },
     })),
   deletePost: (postId) =>
