@@ -12,7 +12,7 @@ const FeedPost = ({ post }) => {
     <Flex direction={"column"} gap={4} overflow={"hidden"}>
       <PostHeader post={post} creatorProfile={userProfile} />
       <Box
-        height={"60vh"}
+        height={{ base: "50vh", md: "60vh" }}
         border={"1px solid gray "}
         borderRadius={"5px"}
         overflow={"hidden"}
@@ -23,7 +23,7 @@ const FeedPost = ({ post }) => {
           borderRadius={"10px"}
           width={"100%"}
           height={"100%"}
-          objectFit={"fill"}
+          objectFit={{ base: "contain", md: "fill" }}
         />
       </Box>
       <PostFooter

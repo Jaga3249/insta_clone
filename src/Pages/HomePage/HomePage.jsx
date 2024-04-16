@@ -16,7 +16,7 @@ const HomePage = () => {
         // border={"2px solid green"}
       >
         {/* left section */}
-        <Box flex={2} py={10} border={"2px solid red"}>
+        <Box flex={2} py={10}>
           <FeedPosts />
         </Box>
         {/* right container */}
