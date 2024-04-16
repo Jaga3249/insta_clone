@@ -1,15 +1,18 @@
 import { Flex, Text, Tooltip } from "@chakra-ui/react";
 import { GiThreeLeaves } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
+import useSliderState from "../../store/SliderState";
 
-const ReelPosts = ({ isSelected, selectedItemName }) => {
+const ReelPosts = () => {
+  const { isSelected, setSliderState } = useSliderState();
   return (
     <div>
       <Tooltip
         label="Reels"
         aria-label="A tooltip "
         ml={1}
-        display={{ base: "block", md: "none" }}
+        mt={2}
+        display={{ base: "block", md: isSelected ? "block" : "none" }}
         placement="right-start"
         hasArrow
       >
@@ -23,9 +26,7 @@ const ReelPosts = ({ isSelected, selectedItemName }) => {
             alignItems={"center"}
             justifyContent={{
               base: "center",
-              sm: `${
-                isSelected && selectedItemName === "Search" ? "center" : "start"
-              }`,
+              sm: isSelected ? "center" : "start",
             }}
             gap={2}
             _hover={{ bg: "whiteAlpha.500" }}
@@ -33,20 +34,22 @@ const ReelPosts = ({ isSelected, selectedItemName }) => {
             px={1}
             borderRadius={"5px"}
             cursor={"pointer"}
-            // backgroundColor={(isActive) => console.log(isActive)}
+            position={"relative"}
+            onClick={() => setSliderState(false)}
           >
             <GiThreeLeaves size={24} />
 
             <Text
               display={{
                 base: "none",
-                md: `${
-                  isSelected && selectedItemName === "Search" ? "none" : "block"
-                }`,
-                sm: `${
-                  isSelected && selectedItemName === "Search" ? "none" : "block"
-                }`,
+                md: "block",
+
+                sm: "block",
               }}
+              position={isSelected ? "absolute" : "static"}
+              left={isSelected ? "68px" : "0px"}
+              transition={"left 0.8s ease-in-out"}
+              transitionDelay={isSelected ? "0.2s" : "0.5s"}
             >
               Reel
             </Text>

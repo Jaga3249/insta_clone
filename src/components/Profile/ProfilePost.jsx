@@ -102,6 +102,7 @@ const ProfilePost = ({ post }) => {
           setPostToBeDelete={setPostToBeDelete}
         />
       )}
+
       {/* deletePost modal */}
       {isOpen && selectedItem === "deletePost" && (
         <DeletePostModal

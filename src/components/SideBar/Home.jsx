@@ -2,15 +2,18 @@ import { Box, Flex, Text, Tooltip } from "@chakra-ui/react";
 
 import { FaHome } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import useSliderState from "../../store/SliderState";
 
-const Home = ({ isSelected, selectedItemName }) => {
+const Home = () => {
+  const { isSelected, setSliderState } = useSliderState();
   return (
     <>
       <Tooltip
         label={"Home"}
         aria-label="A tooltip "
         ml={1}
-        display={{ base: "block", md: "none" }}
+        mt={2}
+        display={{ base: "block", md: isSelected ? "block" : "none" }}
         placement="right-start"
         hasArrow
       >
@@ -19,9 +22,7 @@ const Home = ({ isSelected, selectedItemName }) => {
             alignItems={"center"}
             justifyContent={{
               base: "center",
-              sm: `${
-                isSelected && selectedItemName === "Search" ? "center" : "start"
-              }`,
+              sm: isSelected ? "center" : "start",
             }}
             gap={2}
             _hover={{ bg: "whiteAlpha.500" }}
@@ -29,19 +30,21 @@ const Home = ({ isSelected, selectedItemName }) => {
             px={1}
             borderRadius={"5px"}
             cursor={"pointer"}
+            onClick={() => setSliderState(false)}
+            position={"relative"}
           >
             <FaHome size={24} />
 
             <Text
               display={{
                 base: "none",
-                md: `${
-                  isSelected && selectedItemName === "Search" ? "none" : "block"
-                }`,
-                sm: `${
-                  isSelected && selectedItemName === "Search" ? "none" : "block"
-                }`,
+                md: "block",
+                sm: "block",
               }}
+              position={isSelected ? "absolute" : "static"}
+              left={isSelected ? "68px" : "0px"}
+              transition={"left 0.8s ease-in-out"}
+              transitionDelay={isSelected ? "0.2s" : "0.5s"}
             >
               Home
             </Text>

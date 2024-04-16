@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import useAuthStore from "../store/AuthStore";
 import { UserProfileStore } from "../store/UserProfileStore";
+
 const UseLoginWithGoogle = () => {
   const { setUserProfile } = UserProfileStore();
   const provider = new GoogleAuthProvider();
@@ -42,14 +43,15 @@ const UseLoginWithGoogle = () => {
         querySnapshot.forEach((doc) => {
           data = doc.data();
         });
-
         if (data) {
           setLoading(false);
-          localStorage.setItem("user_info", JSON.stringify(userDoc));
-          login(userDoc);
-          setUserProfile(userDoc);
+          localStorage.setItem("user_info", JSON.stringify(data));
+
+          login(data);
+          setUserProfile(data);
 
           toast.success("user loggin sucessfully");
+
           return;
         } else {
           await setDoc(doc(firestore, "users", res.user.uid), userDoc);
@@ -66,6 +68,7 @@ const UseLoginWithGoogle = () => {
       setLoading(false);
     }
   };
+
   return { loginWithGoogle };
 };
 export default UseLoginWithGoogle;

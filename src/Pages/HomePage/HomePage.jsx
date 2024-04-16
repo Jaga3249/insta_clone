@@ -4,21 +4,29 @@ import FeedPosts from "../../components/FeedPosts/FeedPosts";
 import SuggestedUsers from "../../components/SuggestedUsers/SuggestedUsers";
 
 const HomePage = () => {
-  console.log();
   return (
-    <Container maxW={"container.lg"} pt={10}>
-      <Flex gap={20} justifyContent={"center"}>
+    <Container
+      maxW={{ md: "container.lg" }}
+      pt={10}
+      //  border={"2px solid red"}
+    >
+      <Flex
+        gap={{ base: 0, md: 20 }}
+        justifyContent={"center"}
+        // border={"2px solid green"}
+      >
         {/* left section */}
-        <Box flex={2} py={10}>
+        <Box flex={2} py={10} border={"2px solid red"}>
           <FeedPosts />
         </Box>
         {/* right container */}
         <Box
-          flex={3}
           display={{ base: "none", md: "block" }}
-          mr={20}
+          flex={3}
+          mr={{ base: 0, md: 20 }}
           py={10}
           maxW={"300px"}
+          // border={"2px solid red"}
         >
           <SuggestedUsers />
         </Box>

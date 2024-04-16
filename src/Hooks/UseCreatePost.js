@@ -85,6 +85,6 @@ const UseCreatePost = () => {
     }
   };
 
-  return { handleCreatePost, loading };
+  return { handleCreatePost, loading, userProfile };
 };
 export default UseCreatePost;

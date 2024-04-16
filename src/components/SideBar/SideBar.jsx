@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Link, Skeleton, Stack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Link as RouterLink, useLocation, useParams } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 import {
   InstagramLogo,
@@ -12,13 +12,14 @@ import { Tooltip } from "@chakra-ui/react";
 import { BiLogOutCircle } from "react-icons/bi";
 import UseLogOut from "../../Hooks/useLogout";
 import SideBarItems from "./SideBarItems";
-import SearchDrawer from "../../drawer/SearchDrawer";
+
+import SearchUser from "../SearchUser/SearchUser";
+import useSliderState from "../../store/SliderState";
+import CreatePost from "../CreatePost/CreatePost";
 
 const SideBar = () => {
-  const [isSelected, setIsSelected] = useState(false);
-  const [selectedItemName, setSelectedItemName] = useState("");
+  const { isSelected, currentSlider } = useSliderState();
   const { pathname } = useLocation();
-
   const [isLoading, setIsLoading] = useState(true);
 
   const { handleLogout } = UseLogOut();
@@ -53,11 +54,9 @@ const SideBar = () => {
       ) : (
         <>
           <Box
+            width={`${isSelected ? "6vw" : "18vw"}`}
             cursor={"pointer"}
             h={"100vh"}
-            width={`${
-              isSelected && selectedItemName === "Search" ? 20 : "auto"
-            }`}
             position={"sticky"}
             top={0}
             left={0}
@@ -65,10 +64,15 @@ const SideBar = () => {
             px={{ base: 6, md: 4 }}
             borderRight={"1px solid"}
             borderColor={"whiteAlpha.500"}
+            transition={"width 0.8s ease-in-out"}
+            transitionDelay={isSelected ? "0.5s" : "0.5s"}
           >
             <Flex
               direction={"column"}
-              alignItems={{ base: "center", md: "start" }}
+              alignItems={{
+                base: "center",
+                md: "start",
+              }}
               pt={1}
             >
               <Link
@@ -76,11 +80,7 @@ const SideBar = () => {
                 as={RouterLink}
                 display={{
                   base: "none",
-                  md: `${
-                    isSelected && selectedItemName === "Search"
-                      ? "none"
-                      : "block"
-                  }`,
+                  md: isSelected ? "none" : "block",
                 }}
                 cursor={"pointer"}
                 ml={2}
@@ -93,11 +93,7 @@ const SideBar = () => {
                 as={RouterLink}
                 display={{
                   base: "block",
-                  md: `${
-                    isSelected && selectedItemName === "Search"
-                      ? "block"
-                      : "none"
-                  }`,
+                  md: isSelected ? "block" : "none",
                 }}
                 borderRadius={4}
                 _hover={{ bg: "whiteAlpha.500" }}
@@ -109,18 +105,11 @@ const SideBar = () => {
               <Box
                 width={{
                   base: 10,
-                  sm: `${
-                    isSelected && selectedItemName === "Search" ? 10 : "100%"
-                  }`,
+                  sm: "100%",
                 }}
                 mt={3}
               >
-                <SideBarItems
-                  setIsSelected={setIsSelected}
-                  isSelected={isSelected}
-                  setSelectedItemName={setSelectedItemName}
-                  selectedItemName={selectedItemName}
-                />
+                <SideBarItems />
               </Box>
 
               <Tooltip
@@ -135,11 +124,7 @@ const SideBar = () => {
                   alignItems={"center"}
                   justifyContent={{
                     base: "center",
-                    md: `${
-                      isSelected && selectedItemName === "Search"
-                        ? "center"
-                        : "start"
-                    }`,
+                    md: isSelected ? "center" : "start",
                   }}
                   gap={2}
                   to={"/auth"}
@@ -158,11 +143,7 @@ const SideBar = () => {
                     as="span"
                     display={{
                       base: "none",
-                      md: `${
-                        isSelected && selectedItemName === "Search"
-                          ? "none"
-                          : "block"
-                      }`,
+                      md: isSelected ? "none" : "block",
                     }}
                   >
                     Logout
@@ -170,6 +151,24 @@ const SideBar = () => {
                 </Flex>
               </Tooltip>
             </Flex>
+          </Box>
+
+          <Box
+            display={{ base: "none", sm: "block" }}
+            width={"25vw"}
+            height={"100vh"}
+            borderRight={"1px solid gray"}
+            borderRightRadius={"10px"}
+            position={"fixed"}
+            top={0}
+            left={`${isSelected ? "80px" : "-400px"}`}
+            transition={"left 0.8s ease-in-out"}
+            transitionDelay={isSelected ? "0s" : "0s"}
+            backgroundColor={"black"}
+            zIndex={999}
+          >
+            {currentSlider === "search" && <SearchUser />}
+            {currentSlider === "create" && <CreatePost />}
           </Box>
         </>
       )}

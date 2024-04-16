@@ -30,11 +30,7 @@ const ProfilePage = () => {
         {loading && <ProfileHeaderSkeleton />}
       </Flex>
       {/* buttom section */}
-      <Flex
-        flexDirection={"column"}
-        borderTop={"1px solid"}
-        borderColor={"whiteAlpha.300"}
-      >
+      <Flex flexDirection={"column"}>
         <ProfileTabs />
         <ProfilePosts />
       </Flex>

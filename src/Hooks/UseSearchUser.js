@@ -1,27 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { firestore } from "../firebase/fireBase";
 import { toast } from "react-toastify";
 import { UserProfileStore } from "../store/UserProfileStore";
 
-const UseSearchUser = () => {
+const UseSearchUser = (username) => {
   const [loading, setLoading] = useState(false);
-  // const [user, setUser] = useState(null);
-  const { userProfile, setUserProfile } = UserProfileStore();
-  // const loginuser = JSON.parse(localStorage.getItem("user_info"));
 
-  const getUserProfile = async (username) => {
+  const { setUserProfile } = UserProfileStore();
+
+  const getUserProfile = async () => {
     setLoading(true);
     if (username === "") {
-      toast.info("Required field can't be empty", {
-        onClose: () => setLoading(false),
-      });
-
-      return;
-    } else if (username === loginuser.username) {
-      toast.info("Login user is not Saerchable", {
-        onClose: () => setLoading(false),
-      });
+      setLoading(false);
       return;
     }
 
@@ -32,7 +23,7 @@ const UseSearchUser = () => {
       );
       const querySnapshot = await getDocs(q);
       if (querySnapshot.empty) {
-        toast.info("user is not found");
+        setUserProfile(null);
         return;
       }
 
@@ -46,6 +37,12 @@ const UseSearchUser = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (username) {
+      getUserProfile();
+    }
+  }, [username]);
 
   return { loading, getUserProfile };
 };

@@ -4,15 +4,20 @@ import { Box, Flex, Image } from "@chakra-ui/react";
 import PostFooter from "./PostFooter";
 
 import UseGetUserProfileById from "../../Hooks/UseGetUserProfileById";
-import UseSavePosts from "../../Hooks/UseSavePosts";
 
 const FeedPost = ({ post }) => {
   const { userProfile } = UseGetUserProfileById(post.createdBy);
 
   return (
-    <Flex direction={"column"} gap={4}>
+    <Flex direction={"column"} gap={4} overflow={"hidden"}>
       <PostHeader post={post} creatorProfile={userProfile} />
-      <Box height={"70vh"} border={"1px solid gray "} borderRadius={"5px"}>
+      <Box
+        height={"60vh"}
+        width={{ base: "100vw", md: "30vw" }}
+        border={"1px solid gray "}
+        borderRadius={"5px"}
+        overflow={"hidden"}
+      >
         <Image
           src={post.imageUrl}
           cursor={"pointer"}

@@ -140,7 +140,6 @@ const ProfileHeader = () => {
           </Flex>
 
           <Flex>
-            <Text fontSize={16}>{userProfile.fullName}</Text>
             <Text fontSize={16} width={"100%"}>
               {userProfile.bio}
             </Text>

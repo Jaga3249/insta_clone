@@ -2,8 +2,10 @@ import { Box, Flex, Tooltip } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import useAuthStore from "../../store/AuthStore";
 import { useNavigate } from "react-router-dom";
+import useSliderState from "../../store/SliderState";
 
-const ProfileLink = ({ isSelected, selectedItemName }) => {
+const ProfileLink = () => {
+  const { isSelected, setSliderState } = useSliderState();
   const { user } = useAuthStore();
   const navigate = useNavigate();
 
@@ -13,9 +15,7 @@ const ProfileLink = ({ isSelected, selectedItemName }) => {
         alignItems={"center"}
         justifyContent={{
           base: "center",
-          sm: `${
-            isSelected && selectedItemName === "Search" ? "center" : "start"
-          }`,
+          sm: isSelected ? "center" : "start",
         }}
         gap={2}
         _hover={{ bg: "whiteAlpha.500" }}
@@ -23,9 +23,12 @@ const ProfileLink = ({ isSelected, selectedItemName }) => {
         px={1}
         borderRadius={"5px"}
         cursor={"pointer"}
-        onClick={() => navigate(user.username)}
+        position={"relative"}
+        onClick={() => {
+          navigate(user.username);
+          setSliderState(false);
+        }}
       >
-        {/* <RxAvatar size={25} /> */}
         <Image
           src={user.profilePicUrl || "https://bit.ly/dan-abramov"}
           width={"30px"}
@@ -35,10 +38,12 @@ const ProfileLink = ({ isSelected, selectedItemName }) => {
         <Box
           display={{
             base: "none",
-            md: `${
-              isSelected && selectedItemName === "Search" ? "none" : "block"
-            }`,
+            md: "block",
           }}
+          position={isSelected ? "absolute" : "static"}
+          left={isSelected ? "68px" : "0px"}
+          transition={"left 0.8s ease-in-out"}
+          transitionDelay={isSelected ? "0.2s" : "0.5s"}
         >
           Profile
         </Box>

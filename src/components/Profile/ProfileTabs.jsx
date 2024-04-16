@@ -1,10 +1,11 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaBookmark } from "react-icons/fa6";
 import { GrFavorite } from "react-icons/gr";
 
 const ProfileTabs = () => {
+  const [tabsName, setTabsName] = useState("");
   return (
     <Flex
       justifyContent={"center"}
@@ -15,11 +16,12 @@ const ProfileTabs = () => {
       gap={{ base: 3, sm: 4 }}
     >
       <Flex
-        borderTop={"1px solid"}
+        borderTop={"1px solid white"}
         alignItems={"center"}
         cursor={"pointer"}
         gap={1}
         p={1}
+        // borderColor={"whiteAlpha.300"}
       >
         <Box>
           <BsFillGrid3X3GapFill size={20} />

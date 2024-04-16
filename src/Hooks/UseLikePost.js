@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuthStore from "../store/AuthStore";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
@@ -6,11 +6,12 @@ import { firestore } from "../firebase/fireBase";
 
 const UseLikePost = (post) => {
   const { user } = useAuthStore();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [likes, setLikes] = useState(post?.likes?.length);
   const [isLiked, setIsLiked] = useState(post?.likes?.includes(user.uid));
 
   const handleLike = async () => {
+    console.log("cliked");
     if (loading) return;
     if (!user) {
       toast.info("user must be loggin to like a post");
