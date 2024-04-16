@@ -13,7 +13,6 @@ const FeedPost = ({ post }) => {
       <PostHeader post={post} creatorProfile={userProfile} />
       <Box
         height={"60vh"}
-        width={{ base: "100vw", md: "30vw" }}
         border={"1px solid gray "}
         borderRadius={"5px"}
         overflow={"hidden"}
