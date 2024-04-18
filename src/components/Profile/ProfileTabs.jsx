@@ -1,6 +1,4 @@
 import {
-  Box,
-  Flex,
   Tab,
   TabList,
   TabPanel,
@@ -8,13 +6,12 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+
 import ProfilePosts from "./ProfilePosts";
 
 const ProfileTabs = () => {
-  const [tabsName, setTabsName] = useState("");
   return (
-    <Tabs>
+    <Tabs variant="enclosed">
       <TabList>
         <Tab fontSize={{ base: "15px", md: "30px" }}>Posts</Tab>
         <Tab fontSize={{ base: "15px", md: "30px" }}> Save</Tab>
@@ -26,10 +23,10 @@ const ProfileTabs = () => {
           <ProfilePosts />
         </TabPanel>
         <TabPanel>
-          <p>two!</p>
+          <p>Save Posts</p>
         </TabPanel>
         <TabPanel>
-          <p>three!</p>
+          <p>Likes Post</p>
         </TabPanel>
       </TabPanels>
     </Tabs>

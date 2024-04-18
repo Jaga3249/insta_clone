@@ -25,7 +25,7 @@ const NavigationMenu = () => {
           <CreatePostLogo />
         </Box>
         <Image
-          src={user.profilePicUrl || "https://bit.ly/dan-abramov"}
+          src={user?.profilePicUrl || "https://bit.ly/dan-abramov"}
           width={"30px"}
           h={"30px"}
           borderRadius={"full"}

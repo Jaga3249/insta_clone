@@ -5,8 +5,6 @@ import {
   Divider,
   Spinner,
   Image,
-  Stack,
-  HStack,
   Skeleton,
   SkeletonCircle,
 } from "@chakra-ui/react";
@@ -25,16 +23,11 @@ const SearchUser = () => {
   const [isShow, setIsShow] = useState(false);
   const { user } = useAuthStore();
   const { userProfile } = UserProfileStore();
-  const { loading, getUserProfile } = UseSearchUser(userName);
+  const { loading, searchUserProfile, setSearchUserProfile } =
+    UseSearchUser(userName);
   const { handleFollowUser, isUpdating, isFollowing } = UseFollowUser(
     userProfile?.uid
   );
-
-  const handleSearchUser = () => {
-    if (userName) {
-      getUserProfile();
-    }
-  };
 
   const followUnFollowUser = () => {
     handleFollowUser();
@@ -59,7 +52,6 @@ const SearchUser = () => {
           py={2}
           px={3}
           onFocus={() => setIsShow(true)}
-          onKeyDown={handleSearchUser}
         >
           {!isShow && <LuSearch size={25} />}
           <input
@@ -84,6 +76,7 @@ const SearchUser = () => {
                   onClick={() => {
                     setIsShow(!isShow);
                     setUserName("");
+                    setSearchUserProfile(null);
                   }}
                 />
               )}
@@ -100,27 +93,27 @@ const SearchUser = () => {
         <Box py={4} px={4} fontSize={"20px"} cursor={"pointer"}>
           Recent
           {/* search user result */}
-          {userProfile && user?.uid !== userProfile?.uid && (
+          {searchUserProfile && user?.uid !== searchUserProfile?.uid && (
             <Flex justifyContent={"space-between"}>
               {/* left side */}
               <Flex gap={2} alignItems={"center"}>
-                <Link to={userProfile?.username}>
+                <Link to={searchUserProfile?.username}>
                   <Image
                     src={
-                      userProfile?.profilePicUrl || "https://bit.ly/dan-abramov"
+                      searchUserProfile?.profilePicUrl ||
+                      "https://bit.ly/dan-abramov"
                     }
                     width={10}
                     height={10}
                     borderRadius={"100%"}
-                    // onClick={()=>}
                   />
                 </Link>
                 <Box display={"flex"} flexDir={"column"} color={"gray"}>
                   {/* username */}
-                  <Box fontSize={"16px"}>{userProfile?.fullName}</Box>
+                  <Box fontSize={"16px"}>{searchUserProfile?.fullName}</Box>
                   {/* followers */}
                   <Box fontSize={"14px"}>
-                    {userProfile?.followers.length} Followers
+                    {searchUserProfile?.followers.length} Followers
                   </Box>
                 </Box>
               </Flex>

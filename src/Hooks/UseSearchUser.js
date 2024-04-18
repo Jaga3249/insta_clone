@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { firestore } from "../firebase/fireBase";
 import { toast } from "react-toastify";
-import { UserProfileStore } from "../store/UserProfileStore";
 
 const UseSearchUser = (username) => {
   const [loading, setLoading] = useState(false);
+  const [searchUserProfile, setSearchUserProfile] = useState(null);
 
-  const { setUserProfile } = UserProfileStore();
+  // const { setUserProfile } = UserProfileStore();
 
   const getUserProfile = async () => {
     setLoading(true);
@@ -23,12 +23,12 @@ const UseSearchUser = (username) => {
       );
       const querySnapshot = await getDocs(q);
       if (querySnapshot.empty) {
-        setUserProfile(null);
+        setSearchUserProfile(null);
         return;
       }
 
       querySnapshot.forEach((doc) => {
-        setUserProfile(doc.data());
+        setSearchUserProfile(doc.data());
       });
     } catch (error) {
       console.log(error.message);
@@ -44,6 +44,6 @@ const UseSearchUser = (username) => {
     }
   }, [username]);
 
-  return { loading, getUserProfile };
+  return { loading, searchUserProfile, setSearchUserProfile };
 };
 export default UseSearchUser;

@@ -1,0 +1,52 @@
+  {searchUserProfile && user?.uid !== searchUserProfile?.uid && (
+            <Flex justifyContent={"space-between"}>
+              {/* left side */}
+              <Flex gap={2} alignItems={"center"}>
+                <Link to={searchUserProfile?.username}>
+                  <Image
+                    src={
+                      searchUserProfile?.profilePicUrl ||
+                      "https://bit.ly/dan-abramov"
+                    }
+                    width={10}
+                    height={10}
+                    borderRadius={"100%"}
+                  
+                  />
+                </Link>
+                <Box display={"flex"} flexDir={"column"} color={"gray"}>
+                  {/* username */}
+                  <Box fontSize={"16px"}>{searchUserProfile?.fullName}</Box>
+                  {/* followers */}
+                  <Box fontSize={"14px"}>
+                    {searchUserProfile?.followers.length} Followers
+                  </Box>
+                </Box>
+              </Flex>
+              {/* right side */}
+              <Box
+                fontSize={"16px"}
+                color={"blue.400"}
+                cursor={"pointer"}
+                onClick={followUnFollowUser}
+              >
+                {isFollowing ? (
+                  <Box color={"gray"} fontWeight={500}>
+                    {isUpdating ? (
+                      <BeatLoader size={8} color="white" />
+                    ) : (
+                      "Following"
+                    )}
+                  </Box>
+                ) : (
+                  <Box>
+                    {isUpdating ? (
+                      <BeatLoader size={8} color="white" />
+                    ) : (
+                      "Follow"
+                    )}
+                  </Box>
+                )}
+              </Box>
+            </Flex>
+          )}

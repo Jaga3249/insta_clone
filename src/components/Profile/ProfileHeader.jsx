@@ -19,8 +19,11 @@ import useAuthStore from "../../store/AuthStore";
 import EditProfile from "./EditProfile";
 import UseFollowUser from "../../Hooks/UseFollowUser";
 import { BeatLoader } from "react-spinners";
+import { RiLogoutCircleLine } from "react-icons/ri";
+import UseLogOut from "../../Hooks/useLogout";
 
 const ProfileHeader = () => {
+  const { handleLogout } = UseLogOut();
   const [open, setOpen] = useState(false);
   const { userProfile } = UserProfileStore();
   const { user } = useAuthStore();
@@ -91,6 +94,9 @@ const ProfileHeader = () => {
                 {isFollowing ? "Unfollow" : "Follow"}
               </Button>
             )}
+            <Box display={{ base: "block", md: "none" }} onClick={handleLogout}>
+              <RiLogoutCircleLine size={30} />
+            </Box>
           </Flex>
           <Flex
             w={"full"}
@@ -140,10 +146,8 @@ const ProfileHeader = () => {
             </Text>
           </Flex>
 
-          <Flex>
-            <Text fontSize={16} width={"100%"}>
-              {userProfile.bio}
-            </Text>
+          <Flex width={"100%"}>
+            <Text fontSize={16}>{userProfile.bio}</Text>
           </Flex>
         </VStack>
       </Flex>

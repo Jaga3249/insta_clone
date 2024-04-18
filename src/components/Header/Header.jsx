@@ -1,8 +1,4 @@
 import { Box, Flex, Image, Spinner } from "@chakra-ui/react";
-import {
-  InstagramLogo,
-  NotificationsLogo,
-} from "../../../public/Assets/icons/constants";
 import { LuSearch } from "react-icons/lu";
 import { useState } from "react";
 import UseSearchUser from "../../Hooks/UseSearchUser";
@@ -16,25 +12,20 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const [userName, setUserName] = useState("");
   const [isShow, setIsShow] = useState(false);
-  const { loading, getUserProfile } = UseSearchUser(userName);
+  const { loading, searchUserProfile, setSearchUserProfile } =
+    UseSearchUser(userName);
   const { userProfile } = UserProfileStore();
   const { handleFollowUser, isUpdating, isFollowing } = UseFollowUser(
     userProfile?.uid
   );
   const { user } = useAuthStore();
 
-  const handleSearchUser = () => {
-    if (userName) {
-      getUserProfile();
-    }
-  };
   const followUnFollowUser = () => {
     handleFollowUser();
   };
   return (
     <Flex
       flexDirection={"column"}
-      // alignItems={"center"}
       justifyContent={"space-between"}
       px={5}
       gap={3}
@@ -49,7 +40,6 @@ const Header = () => {
         py={1}
         px={2}
         onFocus={() => setIsShow(true)}
-        onKeyDown={handleSearchUser}
       >
         {!isShow && <LuSearch size={25} />}
         <input
@@ -74,6 +64,7 @@ const Header = () => {
                 onClick={() => {
                   setIsShow(!isShow);
                   setUserName("");
+                  setSearchUserProfile(null);
                 }}
               />
             )}
@@ -82,13 +73,16 @@ const Header = () => {
       </Box>
 
       {/* search user result */}
-      {userProfile && user?.uid !== userProfile?.uid && (
+      {searchUserProfile && user?.uid !== searchUserProfile?.uid && (
         <Flex justifyContent={"space-between"} px={2}>
           {/* left side */}
           <Flex gap={2} alignItems={"center"}>
-            <Link to={userProfile?.username}>
+            <Link to={searchUserProfile?.username}>
               <Image
-                src={userProfile?.profilePicUrl || "https://bit.ly/dan-abramov"}
+                src={
+                  searchUserProfile?.profilePicUrl ||
+                  "https://bit.ly/dan-abramov"
+                }
                 width={10}
                 height={10}
                 borderRadius={"100%"}
@@ -96,10 +90,10 @@ const Header = () => {
             </Link>
             <Box display={"flex"} flexDir={"column"} color={"gray"}>
               {/* username */}
-              <Box fontSize={"16px"}>{userProfile?.fullName}</Box>
+              <Box fontSize={"16px"}>{searchUserProfile?.fullName}</Box>
               {/* followers */}
               <Box fontSize={"14px"}>
-                {userProfile?.followers.length} Followers
+                {searchUserProfile?.followers.length} Followers
               </Box>
             </Box>
           </Flex>

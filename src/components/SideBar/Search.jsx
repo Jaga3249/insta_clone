@@ -28,8 +28,7 @@ const Search = () => {
           }`}
           alignItems={"center"}
           justifyContent={{
-            base: "center",
-            sm: isSelected ? "center" : "start",
+            md: isSelected ? "center" : "start",
           }}
           gap={2}
           _hover={{ bg: "whiteAlpha.500" }}
