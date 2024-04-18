@@ -17,7 +17,7 @@ const SuggestedUsers = () => {
 
   return (
     <>
-      <VStack>
+      <VStack position={"sticky"} top={"20px"}>
         {/* suggestedUsre header */}
         <SuggestedHeader />
         <Flex

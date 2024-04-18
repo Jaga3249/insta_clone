@@ -9,7 +9,7 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import profilePhoto from "../../../public/profilepic.png";
 import { BiSolidEdit } from "react-icons/bi";
 
@@ -21,6 +21,7 @@ import UseFollowUser from "../../Hooks/UseFollowUser";
 import { BeatLoader } from "react-spinners";
 
 const ProfileHeader = () => {
+  const [open, setOpen] = useState(false);
   const { userProfile } = UserProfileStore();
   const { user } = useAuthStore();
   const { handleFollowUser, isUpdating, isFollowing } = UseFollowUser(
@@ -70,9 +71,9 @@ const ProfileHeader = () => {
                 bg={"white"}
                 color={"black"}
                 _hover={{ bg: "whiteAlpha.800" }}
-                size={{ base: "xs", md: "sm" }}
+                size={{ base: "sm", md: "sm" }}
                 rightIcon={<BiSolidEdit size={22} />}
-                onClick={onOpen}
+                onClick={() => setOpen(true)}
               >
                 Edit Profile
               </Button>
@@ -146,7 +147,9 @@ const ProfileHeader = () => {
           </Flex>
         </VStack>
       </Flex>
-      {isOpen && <EditProfile isopen={isOpen} onClose={onClose} />}
+      {open && (
+        <EditProfile isOpen={open} onClose={onClose} setOpen={setOpen} />
+      )}
     </>
   );
 };

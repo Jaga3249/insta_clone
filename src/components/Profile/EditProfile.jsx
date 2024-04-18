@@ -18,7 +18,7 @@ import UsePreviewImg from "../../Hooks/UsePreviewImg";
 import UseEditProfile from "../../Hooks/UseEditProfile";
 import { toast } from "react-toastify";
 
-const EditProfile = ({ isopen, onClose }) => {
+const EditProfile = ({ isOpen, onClose, setOpen }) => {
   const fileref = useRef(null);
   const { user } = useAuthStore();
   const initialState = {
@@ -71,7 +71,11 @@ const EditProfile = ({ isopen, onClose }) => {
   };
   // console.log("selectedFile", selectedFile);
   return (
-    <Modal isOpen={isopen} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={() => setOpen(false)}
+      size={{ base: "xs", md: "lg" }}
+    >
       <ModalContent py={6}>
         <ModalCloseButton />
         <ModalBody>
@@ -136,7 +140,7 @@ const EditProfile = ({ isopen, onClose }) => {
           <Button
             mr={3}
             colorScheme="red"
-            onClick={onClose}
+            onClick={() => setOpen(false)}
             width={"100%"}
             size={"md"}
           >

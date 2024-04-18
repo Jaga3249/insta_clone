@@ -7,7 +7,7 @@ const HomePage = () => {
   return (
     <Container
       maxW={{ md: "container.lg" }}
-      pt={10}
+      pt={{ base: 2, md: 10 }}
       //  border={"2px solid red"}
     >
       <Flex

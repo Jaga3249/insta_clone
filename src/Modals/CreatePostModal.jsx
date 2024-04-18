@@ -19,7 +19,7 @@ import { CloseButton } from "@chakra-ui/react";
 import UseCreatePost from "../Hooks/UseCreatePost";
 import { BeatLoader } from "react-spinners";
 
-const CreatePostModal = ({ isopen, onClose }) => {
+const CreatePostModal = ({ isOpen, onClose, setOpen }) => {
   const [captions, setCaptions] = useState("");
   const fileRef = useRef(null);
   const { selectedFile, setSelectedFile, handleChangeImg } = UsePreviewImg();
@@ -29,7 +29,12 @@ const CreatePostModal = ({ isopen, onClose }) => {
 
   return (
     <>
-      <Modal isOpen={isopen} onClose={onClose} closeOnOverlayClick={false}>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setOpen(false)}
+        closeOnOverlayClick={false}
+        size={"xs"}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create Post</ModalHeader>

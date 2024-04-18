@@ -5,6 +5,8 @@ import SideBar from "../../components/SideBar/SideBar";
 
 import useAuthStore from "../../store/AuthStore";
 import { UserProfileStore } from "../../store/UserProfileStore";
+import NavigationMenu from "../../components/NavigationMenu/NavigationMenu";
+import Header from "../../components/Header/Header";
 
 const PageLayout = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -12,6 +14,7 @@ const PageLayout = ({ children }) => {
   const { user } = useAuthStore();
   const rendersidebar = pathname !== "/auth" && user;
   const { setUserProfile } = UserProfileStore();
+  const renderSearchBar = pathname === "/" && user;
 
   useEffect(() => {
     setTimeout(() => {
@@ -27,7 +30,7 @@ const PageLayout = ({ children }) => {
   }
 
   return (
-    <Flex>
+    <Flex flexDirection={{ base: "column", md: "row" }}>
       {/* sidebar on the left */}
       {rendersidebar ? (
         <Box
@@ -37,7 +40,25 @@ const PageLayout = ({ children }) => {
           <SideBar />
         </Box>
       ) : null}
-      <Box display={{ base: "block", sm: "none" }}></Box>
+
+      {renderSearchBar ? (
+        <Box width={"100%"} display={{ base: "block", sm: "none" }} pt={3}>
+          <Header />
+        </Box>
+      ) : null}
+
+      <Flex
+        display={{ base: "block", sm: "none" }}
+        width={"100%"}
+        backgroundColor={"black"}
+        position={"fixed"}
+        bottom={"0"}
+        borderTop={"1px solid gray"}
+        p={2}
+        zIndex={999}
+      >
+        <NavigationMenu />
+      </Flex>
 
       {/* page content on right */}
 

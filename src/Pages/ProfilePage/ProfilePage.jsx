@@ -32,7 +32,6 @@ const ProfilePage = () => {
       {/* buttom section */}
       <Flex flexDirection={"column"}>
         <ProfileTabs />
-        <ProfilePosts />
       </Flex>
     </Container>
   );

@@ -28,24 +28,25 @@ import DeletePostModal from "../../Modals/DeletePostModal";
 import PostViewModal from "../../Modals/PostViewModal";
 
 const ProfilePost = ({ post }) => {
+  const [open, setOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  // const [selectedItem, setSelectedItem] = useState("");
   const [postToBeDelete, setPostToBeDelete] = useState(null);
-  const { userProfile } = UserProfileStore();
+
   const [overlay, setOverlay] = useState(<OverlayOne />);
   const [postViewOverlay, setPostViewOverlay] = useState(<OverlayTwo />);
-  const { isOpen, onOpen, onClose } = useDisclosure(true);
-
-  const [selectedItem, setSelectedItem] = useState("");
+  const { onClose, isOpen } = useDisclosure();
 
   return (
     <>
       <GridItem
         onClick={() => {
-          setSelectedItem("gridItem");
+          setOpen(true);
+
           setPostViewOverlay(<OverlayTwo />);
-          onOpen();
         }}
         gridTemplateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(3, 1fr)" }}
-        gap={1}
+        // gap={10}
         columnGap={1}
         cursor={"pointer"}
         borderRadius={"6px"}
@@ -85,33 +86,32 @@ const ProfilePost = ({ post }) => {
           alt="Profile Photo"
           w={"100%"}
           h={"100%"}
-          objectFit={"fill"}
+          objectFit={"cover"}
           border={"1px solid gray"}
+          borderRadius={"5px"}
+          mb={3}
         />
       </GridItem>
       {/* postview modal */}
-      {selectedItem === "gridItem" && isOpen && (
-        <PostViewModal
-          isOpen={isOpen}
-          onClose={onClose}
-          post={post}
-          onOpen={onOpen}
-          setSelectedItem={setSelectedItem}
-          setOverlay={setOverlay}
-          postViewOverlay={postViewOverlay}
-          setPostToBeDelete={setPostToBeDelete}
-        />
-      )}
 
-      {/* deletePost modal */}
-      {isOpen && selectedItem === "deletePost" && (
-        <DeletePostModal
-          isOpen={isOpen}
-          onClose={onClose}
-          overlay={overlay}
-          post={postToBeDelete}
-        />
-      )}
+      <PostViewModal
+        onClose={onClose}
+        isOpen={open}
+        postViewOverlay={postViewOverlay}
+        post={post}
+        setOpen={setOpen}
+        setDeleteModalOpen={setDeleteModalOpen}
+        setPostToBeDelete={setPostToBeDelete}
+        setOverlay={setOverlay}
+      />
+
+      <DeletePostModal
+        isOpen={deleteModalOpen}
+        onClose={onClose}
+        setDeleteModalOpen={setDeleteModalOpen}
+        overlay={overlay}
+        post={postToBeDelete}
+      />
     </>
   );
 };

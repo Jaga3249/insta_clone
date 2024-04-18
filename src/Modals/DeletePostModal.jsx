@@ -1,26 +1,30 @@
 import {
   Button,
   Modal,
-  ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import UseDeletePost from "../Hooks/UseDeletePost";
 import { BeatLoader } from "react-spinners";
 
-const DeletePostModal = ({ isOpen, onClose, overlay, post }) => {
+const DeletePostModal = ({
+  isOpen,
+  onClose,
+  setDeleteModalOpen,
+  overlay,
+  post,
+}) => {
   const { handledeletePost, isDelete } = UseDeletePost();
 
   return (
     <Modal
       isCentered
       isOpen={isOpen}
-      onClose={onClose}
-      size={"sm"}
-      closeOnOverlayClick={false}
+      onClose={() => setDeleteModalOpen(false)}
+      size={{ base: "xs", md: "sm" }}
     >
       {overlay}
       <ModalContent>
@@ -40,7 +44,7 @@ const DeletePostModal = ({ isOpen, onClose, overlay, post }) => {
           >
             Confirm
           </Button>
-          <Button colorScheme="red" onClick={onClose}>
+          <Button colorScheme="red" onClick={() => setDeleteModalOpen(false)}>
             Cancel
           </Button>
         </ModalFooter>
