@@ -84,8 +84,6 @@ const ProfilePost = ({ post }) => {
         <Image
           src={post.imageUrl}
           alt="Profile Photo"
-          w={"100%"}
-          h={"100%"}
           objectFit={"cover"}
           border={"1px solid gray"}
           borderRadius={"5px"}
