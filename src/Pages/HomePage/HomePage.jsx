@@ -5,16 +5,8 @@ import SuggestedUsers from "../../components/SuggestedUsers/SuggestedUsers";
 
 const HomePage = () => {
   return (
-    <Container
-      maxW={{ md: "container.lg" }}
-      pt={{ base: 2, md: 10 }}
-      //  border={"2px solid red"}
-    >
-      <Flex
-        gap={{ base: 0, md: 20 }}
-        justifyContent={"center"}
-        // border={"2px solid green"}
-      >
+    <Container maxW={{ md: "container.lg" }} pt={{ base: 2, md: 10 }}>
+      <Flex gap={{ base: 0, md: 20 }} justifyContent={"center"}>
         {/* left section */}
         <Box flex={2} py={10}>
           <FeedPosts />

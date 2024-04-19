@@ -47,18 +47,21 @@ const PageLayout = ({ children }) => {
         </Box>
       ) : null}
 
-      <Flex
-        display={{ base: "block", sm: "none" }}
-        width={"100%"}
-        backgroundColor={"black"}
-        position={"fixed"}
-        bottom={"0"}
-        borderTop={"1px solid gray"}
-        p={2}
-        zIndex={999}
-      >
-        <NavigationMenu />
-      </Flex>
+      {pathname != "/auth" && (
+        <Flex
+          display={{ base: "block", sm: "none" }}
+          width={"100%"}
+          backgroundColor={"black"}
+          position={"fixed"}
+          bottom={"0"}
+          borderTop={"1px solid gray"}
+          px={2}
+          py={3}
+          zIndex={999}
+        >
+          <NavigationMenu />
+        </Flex>
+      )}
 
       {/* page content on right */}
 

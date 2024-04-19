@@ -29,6 +29,8 @@ const SearchUser = () => {
     userProfile?.uid
   );
 
+  console.log("loading", loading);
+
   const followUnFollowUser = () => {
     handleFollowUser();
   };

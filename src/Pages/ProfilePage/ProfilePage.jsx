@@ -22,6 +22,8 @@ const ProfilePage = () => {
   const userNotFound = !loading && !userProfile;
   if (userNotFound) return <UserNotFound />;
 
+  console.log("username", username);
+
   return (
     <Container maxW={"container.lg"}>
       {/* top section */}

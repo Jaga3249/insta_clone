@@ -11,18 +11,11 @@ const FeedPost = ({ post }) => {
   return (
     <Flex direction={"column"} gap={4} overflow={"hidden"}>
       <PostHeader post={post} creatorProfile={userProfile} />
-      <Box
-        height={{ base: "50vh", md: "60vh" }}
-        border={"1px solid white "}
-        borderRadius={"5px"}
-        overflow={"hidden"}
-      >
+      <Box border={"1px solid white "} borderRadius={"5px"} overflow={"hidden"}>
         <Image
           src={post.imageUrl}
           cursor={"pointer"}
           borderRadius={"10px"}
-          width={"100%"}
-          height={"100%"}
           objectFit={{ base: "contain", md: "fill" }}
         />
       </Box>

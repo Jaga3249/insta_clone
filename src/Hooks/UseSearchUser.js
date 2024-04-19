@@ -5,11 +5,10 @@ import { toast } from "react-toastify";
 
 const UseSearchUser = (username) => {
   const [loading, setLoading] = useState(false);
+  const [searchItem, setSearchItem] = useState(username);
   const [searchUserProfile, setSearchUserProfile] = useState(null);
 
-  // const { setUserProfile } = UserProfileStore();
-
-  const getUserProfile = async () => {
+  const getUserProfile = async (searchItem) => {
     setLoading(true);
     if (username === "") {
       setLoading(false);
@@ -37,12 +36,15 @@ const UseSearchUser = (username) => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
-    if (username) {
-      getUserProfile();
-    }
+    setSearchItem(username);
   }, [username]);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      getUserProfile(searchItem);
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [searchItem]);
 
   return { loading, searchUserProfile, setSearchUserProfile };
 };

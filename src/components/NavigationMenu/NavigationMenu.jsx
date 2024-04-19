@@ -32,6 +32,7 @@ const NavigationMenu = () => {
           onClick={() => navigate(user?.username)}
         />
       </Flex>
+
       {open && (
         <CreatePostModal isOpen={open} onClose={onClose} setOpen={setOpen} />
       )}
