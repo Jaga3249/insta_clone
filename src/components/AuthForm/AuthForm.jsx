@@ -36,7 +36,18 @@ const AuthForm = () => {
         width={340}
       >
         <VStack spacing={3}>
-          <Image src={instagramLogo} h={16} />
+          {/* <Image src={instagramLogo} h={16} /> */}
+          <Box
+            style={{
+              fontSize: "28px",
+              fontStyle: "oblique",
+              fontWeight: "bold",
+              color: "lightslategray",
+              padding: "10px 0",
+            }}
+          >
+            MysticMingle
+          </Box>
 
           <GoogleAuth prefix={isLogin ? "LogIn" : "SignUp"} />
 
@@ -63,7 +74,9 @@ const AuthForm = () => {
         <Box mx={1.5} fontSize={16}>
           {isLogin ? "Don't have an account" : "Already have an account"}
         </Box>
+        ?
         <Box
+          ml={1}
           color={"blue.500"}
           cursor={"pointer"}
           onClick={() => {
